@@ -19,7 +19,7 @@
 </head>
 
 
-<body>
+<body onload="load()">
     <header class="navbar-fixed">
         <link rel="stylesheet" type="text/css" href="../css/header.css">
         <script src="../js/header.js"></script>
@@ -133,9 +133,9 @@
         <script src="../js/comments.js"></script>
         <div class="comment-container">
             <div class="comment-send">
-                <form id="commentForm" method="GET" action="http://127.0.0.1:5501/page/comment.html">
+                <form id="commentForm" onsubmit="return addComment()">
                     <span class="comment-avatar">
-                        <img src="../medias/avatar.jpg" alt="avatar">
+                        <img src="../medias/user1.jpg" alt="avatar">
                     </span>
                     <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                     <input class="comment-send-button" type="submit" value="发表留言">
