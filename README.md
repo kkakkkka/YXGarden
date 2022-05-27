@@ -8,7 +8,7 @@
 
 - 使用方法
 
-在<head>中加入以下两行：
+在\<head\>中加入以下两行：
 
 ```
 <link rel="stylesheet" type="text/css" href="../css/myaos.css">
