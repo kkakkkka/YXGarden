@@ -1,0 +1,12 @@
+@keyframes myaosmove {
+  from {
+    transform: translate3d(0, 100px, 0) scale(.6);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+  }
+}
+
