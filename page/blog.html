@@ -1,0 +1,418 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+
+    <title>About | UserName</title>
+    <link rel="icon" type="image/png" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="../libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="../libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/matery.css">
+    <link rel="stylesheet" type="text/css" href="../css/my.css">
+    <link rel="alternate" href="../atom.xml" title="UserName" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+        <link rel="stylesheet" type="text/css" href="../css/header.css">
+        <script src="../js/header.js"></script>
+        <nav id="nav_header" class="bg-color nav-transparent">
+            <div id="navContainer" class="nav-wrapper container">
+                <div class="brand-logo">
+                    <a href="home.html" class="waves-effect waves-light">
+                        <img src="../medias/logo.png" class="logo-img" alt="LOGO">
+                    </a>
+                    <div id="login_to_change" style="display: inline;">
+                        <!-- <span class="logo-span">UserName</span> -->
+                        <div class="login"><a href="login.html"><span>登录</span></a></div>
+                        <div class="login"><a href="register.html"><span>注册</span></a></div>
+                    </div>
+                </div>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+                <ul class="right nav-menu">
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="home.html" class="waves-effect waves-light">
+                            <i class="fas fa-home" style="zoom: 0.6;"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="tags.html" class="waves-effect waves-light">
+                            <i class="fas fa-tags" style="zoom: 0.6;"></i>
+                            <span>标签</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="categories.html" class="waves-effect waves-light">
+                            <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+                            <span>分类</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="archives-1.html" class="waves-effect waves-light">
+                            <i class="fas fa-archive" style="zoom: 0.6;"></i>
+                            <span>归档</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="about.html" class="waves-effect waves-light">
+                            <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+                            <span>关于</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="comment.html" class="waves-effect waves-light">
+                            <i class="fas fa-comments" style="zoom: 0.6;"></i>
+                            <span>留言板</span>
+                        </a>
+                    </li>
+
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="friends.html" class="waves-effect waves-light">
+                            <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+                            <span>用户信息</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="bg-cover pd-header about-cover">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            记录一些过程
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle"></span>
+                            <script src="../js/typed.js"></script>
+                            <script>
+                                var typed = new Typed("#subtitle", {
+                                    strings: [
+                                        "从来没有真正的绝境, 只有心灵的迷途",
+                                        "Never really desperate, only the lost of the soul",
+                                    ],
+                                    startDelay: 300,
+                                    typeSpeed: 100,
+                                    loop: true,
+                                    backSpeed: 50,
+                                    showCursor: true
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // 每天切换 banner 图.  Switch banner image every day.
+                var bannerUrl = "../medias/banner/" + new Date().getDay() + '.jpg';
+                var pick = Math.floor(Math.random() * 7);
+                var bannerUrl = "../medias/banner/" + pick + '.jpg';
+                var csstext = document.getElementsByClassName("bg-cover")[0];
+                csstext.style.cssText += "background-image: url( " + bannerUrl + "  )";
+            </script>
+        </div>
+    </div>
+
+    <main class="content">
+        <link rel="stylesheet" href="../libs/tocbot/tocbot.css">
+        <style>
+            #articleContent h1::before,
+            #articleContent h2::before,
+            #articleContent h3::before,
+            #articleContent h4::before,
+            #articleContent h5::before,
+            #articleContent h6::before {
+                display: block;
+                content: " ";
+                height: 100px;
+                margin-top: -100px;
+                visibility: hidden;
+            }
+            
+            #articleContent :focus {
+                outline: none;
+            }
+            
+            .toc-fixed {
+                position: fixed;
+                top: 64px;
+            }
+            
+            .toc-widget {
+                width: 345px;
+                padding-left: 20px;
+            }
+            
+            .toc-widget .toc-title {
+                padding: 35px 0 15px 17px;
+                font-size: 1.5rem;
+                font-weight: bold;
+                line-height: 1.5rem;
+            }
+            
+            .toc-widget ol {
+                padding: 0;
+                list-style: none;
+            }
+            
+            #toc-content {
+                padding-bottom: 30px;
+                overflow: auto;
+            }
+            
+            #toc-content ol {
+                padding-left: 10px;
+            }
+            
+            #toc-content ol li {
+                padding-left: 10px;
+            }
+            
+            #toc-content .toc-link:hover {
+                color: #42b983;
+                font-weight: 700;
+                text-decoration: underline;
+            }
+            
+            #toc-content .toc-link::before {
+                background-color: transparent;
+                max-height: 25px;
+                position: absolute;
+                right: 23.5vw;
+                display: block;
+            }
+            
+            #toc-content .is-active-link {
+                color: #42b983;
+            }
+            
+            #floating-toc-btn {
+                position: fixed;
+                right: 15px;
+                bottom: 76px;
+                padding-top: 15px;
+                margin-bottom: 0;
+                z-index: 998;
+            }
+            
+            #floating-toc-btn .btn-floating {
+                width: 48px;
+                height: 48px;
+            }
+            
+            #floating-toc-btn .btn-floating i {
+                line-height: 48px;
+                font-size: 1.4rem;
+            }
+        </style>
+        <div class="row">
+            <div id="main-content" class="col s12 m12 l9">
+                <!-- 文章内容详情 -->
+                <div id="artDetail">
+                    <div class="card">
+                        <div class="card-content article-info">
+                            <div class="row tag-cate">
+                                <div class="col s7">
+                                    <div class="article-tag">
+                                        <a href="../tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                            <span class="chip bg-color">深度学习</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col s5 right-align">
+                                    <div class="post-cate">
+                                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                        <a href="../categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                深度学习
+                            </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-info">
+                                <div class="post-date info-break-policy">
+                                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp; 2022-04-20
+                                </div>
+                                <div class="post-date info-break-policy">
+                                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp; 2022-04-20
+                                </div>
+                                <div class="info-break-policy">
+                                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp; 8.7k
+                                </div>
+                                <div class="info-break-policy">
+                                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp; 31 分
+                                </div>
+                                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                                    <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                                    <span id="busuanzi_value_page_pv"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr class="clearfix">
+                        <div class="card-content article-card-content">
+                            <div id="articleContent">
+                                <h2 id="Abstract">
+                                    <a href="#Abstract" class="headerlink" title="Abstract"></a>Hello, World!</h2>
+                                <p>本站第一个博文！！</p>
+                            </div>
+                            <hr/>
+                            <div class="reprint" id="reprint-statement">
+                                <div class="reprint__author">
+                                    <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                                    <span class="reprint-info">
+                    <a href="about.html" rel="external nofollow noreferrer">UserName</a>
+                </span>
+                                </div>
+                                <div class="reprint__type">
+                                    <span class="reprint-meta" style="font-weight: bold;">
+                                </div>
+                                <div class="reprint__notice">
+                                        <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                                    <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="about.html" target="_blank">UserName</a>
+                    !
+                </span>
+                                </div>
+
+                            </div>
+                            <div class="tag_share" style="display: block;">
+                                <div class="post-meta__tag-list" style="display: inline-block;">
+                                    <div class="article-tag">
+                                        <a href="../tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                            <span class="chip bg-color">深度学习</span>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                                    <link rel="stylesheet" type="text/css" href="../libs/share/css/share.min.css">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <article id="prenext-posts" class="prev-next articles">
+                        <div class="row article-row">
+                            <div class="article col s12 m6" data-aos="fade-up">
+                                <div class="card">
+                                    <a href="../2022/05/09/pyshare/">
+                                        <div class="card-image">
+                                            <img src="../medias/featureimages/8.jpg" class="responsive-img" alt="一行Python指令实现文件共享">
+                                            <span class="card-title">一行Python指令实现文件共享</span>
+                                        </div>
+                                    </a>
+                                    <div class="card-content article-content">
+                                        <div class="summary block-with-text">
+                                        </div>
+                                        <div class="publish-info">
+                                            <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-09
+                        </span>
+                                            <span class="publish-author">
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" class="post-category">
+                                    杂七杂八
+                                </a>
+                        </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-action article-tags">
+                                        <a href="../tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/">
+                                            <span class="chip bg-color">杂七杂八</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="article col s12 m6" data-aos="fade-up">
+                                <div class="card">
+                                    <a href="../2022/04/19/help-cpp/">
+                                        <div class="card-image">
+                                            <img src="../medias/featureimages/20.jpg" class="responsive-img" alt="C++程序设计辅导-知识点总结">
+                                            <span class="card-title">C++程序设计辅导-知识点总结</span>
+                                        </div>
+                                    </a>
+                                    <div class="card-content article-content">
+                                        <div class="summary block-with-text">
+                                        </div>
+                                        <div class="publish-info">
+                                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-19
+                            </span>
+                                            <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            <a href="../categories/C/" class="post-category">
+                                    C++
+                                </a>
+                        </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-action article-tags">
+
+                                        <a href="../tags/C/">
+                                            <span class="chip bg-color">C++</span>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer bg-color">
+        <div id="toTopButton" style="position: fixed;right: 10px;bottom:10px;cursor: pointer;display: none;" onclick="returnToTop()">
+            <img src="../medias/arrow.png" style="width: 40px;height: 40px; ">
+            <script>
+                function returnToTop() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+        </div>
+        <div class="container row center-align" style="margin-bottom: 15px !important;">
+            <div class="s12 copy-right">
+                Copyright&nbsp;&copy;
+                <span id="year">2022</span>
+                <a href="about.html" target="_blank">逸仙苑</a> |&nbsp;Powered by&nbsp;<a href="https://www.sysu.edu.cn/" target="_blank">SYSU</a> |&nbsp;Organization&nbsp;
+                <a href="https://cse.sysu.edu.cn/" target="_blank">CSE</a>
+                <br>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

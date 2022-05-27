@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+    <title>注册界面</title>
+    <link rel="stylesheet" href="../css/57.css">
+</head>
+
+<body>
+    <form method='post'>
+        <div class="login-table">
+            <div class="tit">注册</div>
+            <input id="username" name="username" required="required" type="text" placeholder="账号(英文字母和数字组成)" />
+            <input id="password" name="password" required="required" type="password" placeholder="密码(不少于6位)">
+            <input id="re-password" name="password" required="required" type="password" placeholder="请重复输入密码">
+            <button type="submit" id="submitbutton" onclick="ifsame()">注册</button>
+            <span><br>已有账号？<a href="login.html">去登录</a></br></span>
+        </div>
+    </form>
+    <div class="square">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="circle">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        function ifsame() {
+            var username = document.getElementById("username").value;
+            var rePassword = document.getElementById("re-password").value;
+            var password = document.getElementById("password").value;
+            var registerButton = document.getElementById("submitbutton");
+            if (rePassword != password && rePassword != "" && password != "") {
+                alert("两次密码输入不相同，请重新输入！");
+                document.getElementById("re-password").value = "";
+                document.getElementById("password").value = "";
+            }
+            if (password.length < 6) {
+                alert("密码少于6位，请重新输入！");
+            }
+            if (username == "" || rePassword == "" || password == "") {
+                alert("不能为空！");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

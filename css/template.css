@@ -1,0 +1,15 @@
+.navbar-fixed {
+    position: relative;
+    height: 56px;
+    z-index: 997
+}
+
+.bg-color {
+    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+}
+
+header .nav-transparent {
+    background-color: transparent !important;
+    background-image: none;
+    box-shadow: none;
+}

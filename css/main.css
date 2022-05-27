@@ -1,0 +1,84 @@
+.github-emoji {
+  position: relative;
+  display: inline-block;
+  width: 1.2em;
+  min-height: 1.2em;
+  overflow: hidden;
+  vertical-align: top;
+  color: transparent;
+}
+
+.github-emoji>span {
+  position: relative;
+  z-index: 10;
+}
+
+.github-emoji img,
+.github-emoji .fancybox {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+  user-select: none !important;
+  cursor: auto !important;
+}
+
+.github-emoji img {
+  height: 1.2em !important;
+  width: 1.2em !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  user-select: none !important;
+  cursor: auto !important;
+}
+
+.github-emoji-fallback {
+  color: inherit;
+}
+
+.github-emoji-fallback img {
+  opacity: 0 !important;
+}
+
+.carousel-control {
+  width: 45px;
+  height: 45px;
+  line-height: 55px;
+  border-radius: 45px;
+  background: transparent;
+  cursor: pointer;
+  z-index: 100;
+}
+
+#prev-cover {
+  position: absolute;
+  top: 48%;
+  left: 8px;
+}
+
+#next-cover {
+  position: absolute;
+  top: 48%;
+  right: 8px;
+  ;
+}
+
+#prev-cover i {
+  margin-right: 3px;
+}
+
+#next-cover i {
+  margin-left: 3px;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0, 0, 0, .4);
+}
+
+.carousel-control i {
+  color: #fff;
+  font-size: 2.4rem;
+}
