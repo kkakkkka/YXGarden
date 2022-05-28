@@ -1,7 +1,7 @@
 var floorNumber = 2;
 
 function load() {
-    var old = localStorage.getItem(localStorage.length-1);
+    var old = localStorage.getItem(localStorage.length - 1);
     var contain = document.getElementsByClassName("comment-list")[0];
     if (localStorage.length > 0)
         contain.innerHTML = old;
@@ -17,12 +17,12 @@ function getCurrentTime() {
     var hour = repair(date.getHours());
     var minute = repair(date.getMinutes());
     var second = repair(date.getSeconds());
-    
-    var curTime = year + "-" + month + "-" + day
-            + " " + hour + ":" + minute + ":" + second;
+
+    var curTime = year + "-" + month + "-" + day +
+        " " + hour + ":" + minute + ":" + second;
     return curTime;
 }
- 
+
 function repair(i) {
     if (i >= 0 && i <= 9)
         return "0" + i;
@@ -49,9 +49,9 @@ function addComment() {
         </div>
         <div class="comment-cls"></div>
         </div>`;
-    
+
     var contain = document.getElementsByClassName("comment-list")[0];
-    var old = localStorage.getItem(localStorage.length-1);
+    var old = localStorage.getItem(localStorage.length - 1);
     if (localStorage.length <= 0) {
         old = document.getElementsByClassName("comment-list")[0].innerHTML;
     }
