@@ -3,7 +3,7 @@ var floorNumber = 2;
 function load() {
     var old = localStorage.getItem(localStorage.length-1);
     var contain = document.getElementsByClassName("comment-list")[0];
-    if (localStorage.length >= 2)
+    if (localStorage.length > 0)
         contain.innerHTML = old;
 }
 
@@ -42,7 +42,7 @@ function addComment() {
             <p class="comment-content-name">hhy${localStorage.length}</p>
             <p class="comment-content-article">${comment}</p>
             <p class="comment-content-footer">
-                <span class="comment-content-footer-id">#${localStorage.length}</span>
+                <span class="comment-content-footer-id">#${localStorage.length+3}</span>
                 <span class="comment-content-footer-device">来自中山大学</span>
                 <span class="comment-content-footer-timestamp">${time}</span>
             </p>
@@ -52,11 +52,11 @@ function addComment() {
     
     var contain = document.getElementsByClassName("comment-list")[0];
     var old = localStorage.getItem(localStorage.length-1);
-    if (floorNumber == 3) {
+    if (localStorage.length <= 0) {
         old = document.getElementsByClassName("comment-list")[0].innerHTML;
     }
     contain.innerHTML = newHtmlContent + old;
-    localStorage.setItem(floorNumber, contain.innerHTML);
+    localStorage.setItem(localStorage.length, contain.innerHTML);
     console.log(localStorage);
     return false;
 }
