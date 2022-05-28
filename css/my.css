@@ -144,3 +144,9 @@
     color: purple;
     padding: 0 5px;
 }
+
+#fixedbutton {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
