@@ -40,7 +40,7 @@
 
 | 名       | 类型 | 长度 | 键          | 注释     |
 | -------- | ---- | ---- | ----------- | -------- |
-| ctableID | int  | 20   | primary key | 分类ID   |
+| ctableID | int  | 20   | primary key | 分类表ID |
 | userID   | int  | 20   | foreign key | 用户ID   |
 | catCount | int  | 20   |             | 分类数量 |
 
@@ -59,7 +59,7 @@
 
 | 名       | 类型 | 长度 | 键          | 注释     |
 | -------- | ---- | ---- | ----------- | -------- |
-| ttableID | int  | 20   | primary key | 标签ID   |
+| ttableID | int  | 20   | primary key | 标签表ID |
 | userID   | int  | 20   | foreign key | 用户ID   |
 | tagCount | int  | 20   |             | 标签数量 |
 
