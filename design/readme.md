@@ -34,21 +34,43 @@
 | readDuration  | varchar  | 20   |             | 阅读时长   |
 | commentCount  | int      | 20   |             | 评论数     |
 
-### 博客分类表
+### 用户分类表
 
-| 名      | 类型    | 长度 | 键          | 注释     |
-| ------- | ------- | ---- | ----------- | -------- |
-| catID   | int     | 20   | primary key | 分类ID   |
-| catName | varchar | 20   |             | 分类名称 |
-|         |         |      |             |          |
+每个用户一个分类表
 
-### 博客标签表
+| 名       | 类型 | 长度 | 键          | 注释     |
+| -------- | ---- | ---- | ----------- | -------- |
+| ctableID | int  | 20   | primary key | 分类ID   |
+| userID   | int  | 20   | foreign key | 用户ID   |
+| catCount | int  | 20   |             | 分类数量 |
 
-| 名      | 类型    | 长度 | 键          | 注释     |
-| ------- | ------- | ---- | ----------- | -------- |
-| tagID   | int     | 20   | primary key | 标签ID   |
-| tagName | varchar | 20   |             | 标签名称 |
-|         |         |      |             |          |
+### 博文分类表
+
+| 名           | 类型    | 长度 | 键          | 注释     |
+| ------------ | ------- | ---- | ----------- | -------- |
+| catID        | int     | 20   | primary key | 分类ID   |
+| ctableID     | int     | 20   | foreign key | 分类表ID |
+| catName      | varchar | 20   |             | 分类名称 |
+| articleCount | int     | 20   |             | 文章数量 |
+
+### 用户标签表
+
+每个用户一个标签表
+
+| 名       | 类型 | 长度 | 键          | 注释     |
+| -------- | ---- | ---- | ----------- | -------- |
+| ttableID | int  | 20   | primary key | 标签ID   |
+| userID   | int  | 20   | foreign key | 用户ID   |
+| tagCount | int  | 20   |             | 标签数量 |
+
+### 博文标签表
+
+| 名           | 类型    | 长度 | 键          | 注释     |
+| ------------ | ------- | ---- | ----------- | -------- |
+| tagID        | int     | 20   | primary key | 标签ID   |
+| ttableID     | int     | 20   | foreign key | 标签表ID |
+| tagName      | varchar | 20   |             | 标签名称 |
+| articleCount | int     | 20   |             | 文章数量 |
 
 ### 留言表
 
