@@ -47,7 +47,7 @@ create table Tag (
 ) character set = utf8;
 
 create table Blog (
-	blogID int not null,
+	blogID varchar(20) not null,
     userID varchar(20) default null,
     catID varchar(20) default null,
 	tagID varchar(20) default null,
