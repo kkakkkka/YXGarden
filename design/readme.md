@@ -82,24 +82,3 @@
 | name       | varchar  | 20   |             | 相片名称 |
 | content    | varchar  | 255  |             | 相片URL  |
 | uploadTime | datetime |      |             | 上传时间 |
-
-### 技术分布表 dtable
-
-每个用户一个技术分布表
-
-| 名         | 类型 | 长度 | 键          | 注释         |
-| ---------- | ---- | ---- | ----------- | ------------ |
-| distID     | int  | 20   | primary key | 分布ID       |
-| userID     | int  | 20   | foreign key | 用户ID       |
-| skillCount | int  | 20   |             | 技术分类数量 |
-
-### 技术统计 skill
-
-文章数量做个判断，如果分类和标签名相同就算一个，不同算两个
-
-| 名           | 类型    | 长度 | 键          | 注释     |
-| ------------ | ------- | ---- | ----------- | -------- |
-| skillID      | int     | 20   | primary key | 技术ID   |
-| distID       | int     | 20   | foreign key | 分布ID   |
-| skillName    | varchar | 20   |             | 技术名称 |
-| articleCount | int     | 20   |             | 文章数量 |
