@@ -11,6 +11,7 @@
 
     <title>登录界面</title>
     <link rel="stylesheet" href="css/57.css">
+    
 </head>
 
 <body>
@@ -47,10 +48,12 @@
     <form action='check.jsp' method='post'>
         <div class="login-table">
             <div class="tit">登录</div>
-            <input type="userID" name="userID" placeholder="账号">
+            <input type="userName" name="userName" placeholder="账号">
             <input type="password" name="password" placeholder="密码">
-            <button type='submit'>登录</button>
+            <button type='submit'>登录</button>	
             <button type='button' onclick="window.location.href = 'home.jsp'">游客访问</button>                
+        	<br>
+        	<a href="sign_in.jsp">忘记密码</a>
         </div>
         
         

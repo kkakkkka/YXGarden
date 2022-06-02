@@ -44,7 +44,7 @@
         <div class="login-table" style="height:250px;">
         	<div class="tit" style="margin: 15px auto 10px auto;">登录失败</div>
         	<div class="baocuo" style="font-size: 20px;margin: 50px auto 80px auto;">提示：密码错误</div>
-        	<a href="login.jsp">返回登录界面</a>
+        	<a href="sign_in.jsp">返回登录界面</a>
         </div>
         	
         
