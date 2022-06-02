@@ -46,21 +46,13 @@ create table Blog (
 	foreign key(tagID) references Tag(tagID)
 ) character set = utf8;
 
-create table Dtable (
-	distID int not null AUTO_INCREMENT,
-    userID int not null,
-	skillCount int DEFAULT 0,
-    primary key (distID),
-	foreign key(userID) references User(userID)
-) character set = utf8;
-
 create table Skill (
 	skillID int not null AUTO_INCREMENT,
 	distID int not null,
     skillName varchar(20) not null,
-    articleCount int DEFAULT 0,
+    userID int not null,
     primary key (skillID),
-	foreign key(distID) references Dtable(distID)
+	foreign key(userID) references user(userID)
 ) character set = utf8;
 
 create table Album (
