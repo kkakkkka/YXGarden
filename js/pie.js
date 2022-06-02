@@ -1,7 +1,7 @@
 window.onload = function() {
 	var len = 5;
 	//可以获取随机颜色
-	colors = ["#00868B", "#FF6A6A", "#00CD00", "#4876FF","#CDBE70", "#EEB422", "#8B658B", "#FF3030", "#EE6AA7"]
+	colors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
 	for (var i=colors.length; i<len; ++i) {
 		let r = Math.floor(Math.random() * 256);
 		let g = Math.floor(Math.random() * 256);
