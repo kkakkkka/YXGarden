@@ -46,15 +46,6 @@ create table Blog (
 	foreign key(tagID) references Tag(tagID)
 ) character set = utf8;
 
-create table Skill (
-	skillID int not null AUTO_INCREMENT,
-	distID int not null,
-    skillName varchar(20) not null,
-    userID int not null,
-    primary key (skillID),
-	foreign key(userID) references user(userID)
-) character set = utf8;
-
 create table Album (
 	albumID int not null AUTO_INCREMENT,
     userID int not null,
