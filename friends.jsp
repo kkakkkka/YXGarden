@@ -12,8 +12,12 @@
     ArrayList<String> mottoList = new ArrayList<String>();
     ArrayList<String> homePageList = new ArrayList<String>();
     
+    ArrayList<String> userNameList2 = new ArrayList<String>();
+    ArrayList<String> userAvatarList2 = new ArrayList<String>();
+    ArrayList<String> mottoList2 = new ArrayList<String>();
+    ArrayList<String> homePageList2 = new ArrayList<String>();
+    
     username = (String)session.getAttribute("userName");
-    System.out.println(username);
     String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
 	try {
     	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
@@ -31,12 +35,12 @@
     	
     	String sql_2 = "select userName,userAvatar,motto,homePage from user where userName <> '"+username+"';";
     	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
-    	for(int i=1;i<=2;i++) { //把游标(cursor)移至第一个或下一个记录
+    	for(int i=1;i<=3;i++) { //把游标(cursor)移至第一个或下一个记录
     		rs_2.next();
-    		userNameList.add(rs_2.getString("userName"));		
-    		userAvatarList.add(rs_2.getString("userAvatar"));
-    		mottoList.add(rs_2.getString("motto"));
-    		homePageList.add(rs_2.getString("homePage"));
+    		userNameList2.add(rs_2.getString("userName"));		
+    		userAvatarList2.add(rs_2.getString("userAvatar"));
+    		mottoList2.add(rs_2.getString("motto"));
+    		homePageList2.add(rs_2.getString("homePage"));
     	}
     	rs_1.close();
     	rs_2.close(); 	
@@ -190,7 +194,62 @@
                     <!-- 从这里开始改 -->
                     <div class="row tags-posts friend-all">
 
+						<%if (username.equals("tourist")){%>
+                        <div class="col s12 m6 l4 friend-div">
+                            <div class="frind-card1 card myaos">
+                                <div class="frind-ship">
+                                    <div class="title">
+                                        <img src="<%out.print(userAvatarList2.get(0)); %>.jpg" alt="img">
+                                        <div>
+                                            <h1 class="friend-name"><%out.print(userNameList2.get(0)); %></h1>
+                                            <p style="position: relative;top: -35px;"><%out.print(mottoList2.get(0)); %></p>
+                                        </div>
+                                    </div>
+                                    <div class="friend-button">
+                                        <a href="<%out.print(homePageList2.get(0)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+
+                        <div class="col s12 m6 l4 friend-div">
+                            <div class="frind-card1 card myaos">
+                                <div class="frind-ship">
+                                    <div class="title">
+                                        <img src="<%out.print(userAvatarList2.get(1)); %>.jpg" alt="img">
+                                        <div>
+                                            <h1 class="friend-name"><%out.print(userNameList2.get(1)); %></h1>
+                                            <p style="position: relative;top: -35px;"><%out.print(mottoList2.get(1)); %></p>
+                                        </div>
+                                    </div>
+                                    <div class="friend-button">
+                                        <a href="<%out.print(homePageList2.get(1)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col s12 m6 l4 friend-div">
+                            <div class="frind-card1 card myaos">
+                                <div class="frind-ship">
+                                    <div class="title">
+                                        <img src="<%out.print(userAvatarList2.get(2)); %>.jpg" alt="img">
+                                        <div>
+                                            <h1 class="friend-name"><%out.print(userNameList2.get(2)); %></h1>
+                                            <p style="position: relative;top: -35px;"><%out.print(mottoList2.get(2)); %></p>
+                                        </div>
+                                    </div>
+                                    <div class="friend-button">
+                                        <a href="<%out.print(homePageList2.get(2)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+                        
+                        <%if(username.equals("tourist")==false){%>                        
                         <div class="col s12 m6 l4 friend-div">
                             <div class="frind-card1 card myaos">
                                 <div class="frind-ship">
@@ -202,53 +261,12 @@
                                         </div>
                                     </div>
                                     <div class="friend-button">
-                                        <a href="<%out.print(homePageList.get(0)); %>" target="_blank" class="button button-glow button-rounded button-caution">
-                      访问主页
-                    </a>
+                                        <a href="<%out.print(homePageList.get(0)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="col s12 m6 l4 friend-div">
-                            <div class="frind-card1 card myaos">
-                                <div class="frind-ship">
-                                    <div class="title">
-                                        <img src="<%out.print(userAvatarList.get(1)); %>.jpg" alt="img">
-                                        <div>
-                                            <h1 class="friend-name"><%out.print(userNameList.get(1)); %></h1>
-                                            <p style="position: relative;top: -35px;"><%out.print(mottoList.get(1)); %></p>
-                                        </div>
-                                    </div>
-                                    <div class="friend-button">
-                                        <a href="<%out.print(homePageList.get(1)); %>" target="_blank" class="button button-glow button-rounded button-caution">
-                      访问主页
-                    </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col s12 m6 l4 friend-div">
-                            <div class="frind-card1 card myaos">
-                                <div class="frind-ship">
-                                    <div class="title">
-                                        <img src="<%out.print(userAvatarList.get(2)); %>.jpg" alt="img">
-                                        <div>
-                                            <h1 class="friend-name"><%out.print(userNameList.get(2)); %></h1>
-                                            <p style="position: relative;top: -35px;"><%out.print(mottoList.get(2)); %></p>
-                                        </div>
-                                    </div>
-                                    <div class="friend-button">
-                                        <a href="<%out.print(homePageList.get(2)); %>" target="_blank" class="button button-glow button-rounded button-caution">
-                      访问主页
-                    </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <%}%>
 
                     </div>
 
