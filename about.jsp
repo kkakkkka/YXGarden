@@ -32,10 +32,10 @@
     		userID = rs_1.getString("userID");
     	}
     	//用户博文数量
-    	String sql_2 = "select count(blogID) from blog where userID = "+ userID +";";
+    	String sql_2 = "select count(catID) from cat where userID = "+ userID +";";
     	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
     	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
-    		articleNum = rs_2.getInt("count(blogID)");
+    		articleNum = rs_2.getInt("count(catID)");
     	}
     	//用户分类数量
     	String sql_3 = "select count(distinct catName) from cat where userID = "+ userID +";";
@@ -308,10 +308,25 @@
                             <%for (int i=0;i<=catNum-1;i++){%>
                                 <div class="col s12 m6 l6">
                                     <div class="skillbar">
-                                        <div class="skillbar-title" style="background: linear-gradient(to right, <%out.print(color[i]); %>); width: <%out.print((int)(1.0*catlistNum.get(i)/articleNum*100));%>%">
+                                        <div class="skillbar-title" style="background: linear-gradient(to right, <%out.print(color[i]); %>); 
+                                        width: 
+                                        <%if(articleNum != 0){ %>
+                                        <%out.print((int)(1.0*catlistNum.get(i)/articleNum*100));%>%"
+                                        <% }%>
+                                        <%if(articleNum == 0){ %>
+                                        <%out.print(0);%>%"
+                                        <% }%>
+                                        >                                      	
                                             <span><%out.print(catlist.get(i));%></span>
                                         </div>
-                                        <div class="skill-bar-percent"><%out.print((int)(1.0*catlistNum.get(i)/catNum*100));%>%</div>
+                                        <div class="skill-bar-percent">
+                                        <%if(articleNum == 0){%>
+                                        	<%out.print(0);%>%
+                                        	<%}%>
+                                        <%if(articleNum != 0){%>
+                                        	<%out.print((int)(1.0*catlistNum.get(i)/articleNum*100));%>%
+                                        	<%}%>
+                                        </div>
                                     </div>
                                 </div>
                             <%}%>
