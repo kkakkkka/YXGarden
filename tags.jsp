@@ -282,7 +282,7 @@ catch (Exception e){
         <div class="container">
             <div class="card">
                 <div class="myaos" style="margin-left: 32%">
-					<canvas id="pie" width="500" height="300" style="margin-top: 1%">
+					<canvas id="pie" width="500" height="230" style="margin-top: 1%; margin-left: 2%">
 						<script>
 							// labels->taglist, values->tagcount
 							var thislabels = [];
