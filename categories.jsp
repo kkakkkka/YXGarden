@@ -74,7 +74,7 @@ String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3
 ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
 ArrayList<Integer> catcount = new ArrayList<Integer>();
-String[] initcatcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(36, 223, 177)"};
+String[] initcatcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(150, 249, 147)"};
 ArrayList<String> catcolor = new ArrayList<String>();
 for (int i=0; i<initcatcolor.length; i++)
 	catcolor.add(initcatcolor[i]);
