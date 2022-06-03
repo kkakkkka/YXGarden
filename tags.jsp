@@ -75,7 +75,7 @@ ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
 ArrayList<String> taglist = new ArrayList<String>();
 ArrayList<Integer> tagcount = new ArrayList<Integer>();
-String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7"};
+String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(150, 249, 147)"};
 ArrayList<String> tagcolor = new ArrayList<String>();
 for (int i=0; i<inittagcolor.length; i++)
 	tagcolor.add(inittagcolor[i]);
@@ -282,7 +282,7 @@ catch (Exception e){
         <div class="container">
             <div class="card">
                 <div class="myaos" style="margin-left: 32%">
-					<canvas id="pie" width="500" height="300" style="margin-top: 1%">
+					<canvas id="pie" width="500" height="230" style="margin-top: 1%; margin-left: 2%">
 						<script>
 							// labels->taglist, values->tagcount
 							var thislabels = [];
