@@ -27,9 +27,7 @@
     	ResultSet rs_1 = stmt.executeQuery(sql_1);//执行查询，返回结果集
     	while(rs_1.next()) { //把游标(cursor)移至第一个或下一个记录
     		userAvatar = rs_1.getString("userAvatar");
-    		System.out.println(userAvatar);
     		motto = rs_1.getString("motto");
-    		System.out.println(motto);
     		userID = rs_1.getString("userID");
     	}
     	//用户博文数量
