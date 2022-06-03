@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*,java.sql.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("utf-8");
     String msg = "";
     String result = "";
@@ -74,75 +75,75 @@
 
 
 <body>
-    <header class="navbar-fixed">
-        <link rel="stylesheet" type="text/css" href="./css/header.css">
-        <script src="./js/header.js"></script>
-        <nav id="nav_header" class="bg-color nav-transparent">
-            <div id="navContainer" class="nav-wrapper container">
-                <div class="brand-logo">
-                    <a href="home.jsp" class="waves-effect waves-light">
-                        <img src="./medias/logo.png" class="logo-img" alt="LOGO">
-                    </a>
-                    <div id="login_to_change" style="display: inline;">
-                        <!-- <span class="logo-span">UserName</span> -->
-                        <div class="login"><a href="login.jsp"><span>登录</span></a></div>
-                        <div class="login"><a href="register.jsp"><span>注册</span></a></div>
-                    </div>
-                </div>
-                <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-                <ul class="right nav-menu">
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="home.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-home" style="zoom: 0.6;"></i>
-                            <span>首页</span>
-                        </a>
-                    </li>
+	<header class="navbar-fixed">
+	<%
+	Object obj = session.getAttribute("userName");
+	String uname;
+	if(obj==null){
+		response.sendRedirect("login.jsp");
+		return;
+	}
+	uname = obj.toString();
+	pageContext.setAttribute("uname", uname);
+	%>
+		<link rel="stylesheet" type="text/css" href="./css/header.css?t=2">
+		<script src="./js/header.js"></script>
+		<nav id="nav_header" class="bg-color nav-transparent">
+			<div id="navContainer" class="nav-wrapper container">
+				<div class="brand-logo">
+					<a href="home.jsp" class="waves-effect waves-light"> <img
+						src="./medias/logo.png" class="logo-img" alt="LOGO">
+					</a>
+					<div id="login_to_change" style="display: inline;">
+						<span class="logo-span" style="position:relative;bottom:24px;left:5px">
+						<c:out value="${uname}"></c:out></span>
+						<div class="login">
+							<a href="login.jsp"><span>切换用户</span></a>
+						</div>
+					</div>
+				</div>
+				<a href="#" data-target="mobile-nav"
+					class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+				<ul class="right nav-menu">
+					<li class="hide-on-med-and-down nav-item"><a href="home.jsp"
+						class="waves-effect waves-light"> <i class="fas fa-home"
+							style="zoom: 0.6;"></i> <span>首页</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="tags.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-tags" style="zoom: 0.6;"></i>
-                            <span>标签</span>
-                        </a>
-                    </li>
+					<li class="hide-on-med-and-down nav-item"><a href="tags.jsp"
+						class="waves-effect waves-light"> <i class="fas fa-tags"
+							style="zoom: 0.6;"></i> <span>标签</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="categories.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-                            <span>分类</span>
-                        </a>
-                    </li>
+					<li class="hide-on-med-and-down nav-item"><a
+						href="categories.jsp" class="waves-effect waves-light"> <i
+							class="fas fa-bookmark" style="zoom: 0.6;"></i> <span>分类</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="archives-1.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-archive" style="zoom: 0.6;"></i>
-                            <span>归档</span>
-                        </a>
-                    </li>
+					<li class="hide-on-med-and-down nav-item"><a
+						href="archives-1.jsp" class="waves-effect waves-light"> <i
+							class="fas fa-archive" style="zoom: 0.6;"></i> <span>归档</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="about.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-                            <span>关于</span>
-                        </a>
-                    </li>
+					<li class="hide-on-med-and-down nav-item"><a href="about.jsp"
+						class="waves-effect waves-light"> <i
+							class="fas fa-user-circle" style="zoom: 0.6;"></i> <span>关于</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="comment.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-comments" style="zoom: 0.6;"></i>
-                            <span>留言板</span>
-                        </a>
-                    </li>
+					<li class="hide-on-med-and-down nav-item"><a
+						href="comment.jsp" class="waves-effect waves-light"> <i
+							class="fas fa-comments" style="zoom: 0.6;"></i> <span>留言板</span>
+					</a></li>
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="friends.jsp" class="waves-effect waves-light">
-                            <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-                            <span>用户信息</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+					<li class="hide-on-med-and-down nav-item"><a
+						href="friends.jsp" class="waves-effect waves-light"> <i
+							class="fas fa-address-book" style="zoom: 0.6;"></i> <span>用户信息</span>
+					</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
 
     <div class="bg-cover pd-header about-cover">
         <div class="container">
