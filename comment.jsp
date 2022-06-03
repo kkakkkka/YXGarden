@@ -8,6 +8,7 @@
     String motto = null; // 用户格言
     ArrayList <String> msgidList = new ArrayList<String>(); // 评论号
     ArrayList <String> userList = new ArrayList<String>(); // 用户名
+    ArrayList <String> userIDList = new ArrayList<String>(); // 用户ID
     ArrayList <String> avatarList = new ArrayList<String>(); // 用户头像
     ArrayList <String> palceList = new ArrayList<String>(); // 评论地点
     ArrayList <String> contentList = new ArrayList<String>(); // 评论内容
@@ -36,12 +37,13 @@
             palceList.add(rs_1.getString("userPlace"));
             contentList.add(rs_1.getString("content"));
             timeList.add(rs_1.getString("time"));
+            userIDList.add(rs_1.getString("userID"));
         }
         rs_1.close();
 
         for (int i = 0; i < msgidList.size(); i++) {
-            String tempMsgID = msgidList.get(i);
-            String sql_2 = "select * from user where userID = " + tempMsgID + ";";
+            String tempUserID = userIDList.get(i);
+            String sql_2 = "select * from user where userID = " + tempUserID + ";";
             ResultSet rs_2 = stmt.executeQuery(sql_2);
             while (rs_2.next()) {
                 userList.add(rs_2.getString("userName"));
@@ -188,40 +190,50 @@
         </div>
     </div>
 
-    <main class="content">
-        <script src="./js/comments.js"></script>
-        <div class="comment-container">
-            <div class="comment-send">
-                <form id="commentForm" action="comment_insert.jsp" method="post">
-                    <span class="comment-avatar">
-                        <img src="<%=userAvatar%>.jpg" alt="avatar">
-                    </span>
-                    <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                    <input class="comment-send-button" type="submit" value="发表留言">
-                </form>
-            </div>
-            <%
-            for (int i = 0; i < msgidList.size(); i++) {
-            %>
-            <div class="comment-list" id="commentList">
-                <div class="comment">
-                    <span class="comment-avatar">
-                        <img src="<%=avatarList.get(i)%>.jpg" alt="avatar">
-                    </span>
-                    <div class="comment-content">
-                        <p class="comment-content-name"><%=userList.get(i)%></p>
-                        <p class="comment-content-article"><%=contentList.get(i)%></p>
-                        <p class="comment-content-footer">
-                            <span class="comment-content-footer-id">#<%=msgidList.get(i)%></span>
-                            <span class="comment-content-footer-device"><%=palceList.get(i)%></span>
-                            <span class="comment-content-footer-timestamp"><%=timeList.get(i)%></span>
-                        </p>
-                    </div>
-                    <div class="comment-cls"></div>
+    <main class="content" style="min-height: 584px;">
+    <script src="./js/comments.js"></script>
+    <div id="contact" class="container chip-container">
+        <div class="card">
+            <div class="card-content">
+                <div class="tag-title center-align">
+                    <i class="fas fa-comments"></i>&nbsp;&nbsp;留言板
                 </div>
-                <%}%>
+                <div class="comment-container">
+                    <div class="comment-send">
+                        <form id="commentForm" action="comment_insert.jsp" method="post">
+                            <span class="comment-avatar">
+                                <img src="<%=userAvatar%>.jpg" alt="avatar">
+                            </span>
+                            <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                            <input class="comment-send-button" type="submit" value="发表留言">
+                        </form>
+                    </div>
+                    <%
+                    for (int i = 0; i < msgidList.size(); i++) {
+                    %>
+                    <div class="comment-list" id="commentList">
+                        <div class="comment">
+                            <span class="comment-avatar">
+                                <img src="<%=avatarList.get(i)%>.jpg" alt="avatar">
+                            </span>
+                            <div class="comment-content">
+                                <p class="comment-content-name"><%=userList.get(i)%></p>
+                                <p class="comment-content-article"><%=contentList.get(i)%></p>
+                                <p class="comment-content-footer">
+                                    <span class="comment-content-footer-id">#<%=msgidList.get(i)%></span>
+                                    <span class="comment-content-footer-device"><%=palceList.get(i)%></span>
+                                    <span class="comment-content-footer-timestamp"><%=timeList.get(i)%></span>
+                                </p>
+                            </div>
+                            <div class="comment-cls"></div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="card"></div>
+    </div>
     </main>
 
     <footer class="page-footer bg-color">
