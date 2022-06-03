@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="java.io.*,java.util.*,java.util.Random.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -58,6 +58,84 @@ pageContext.setAttribute("articles", articles);
 rs.close();
 stmt.close();
 conn.close();
+/////////////////////////////////////////////////////////////////////////////////////////
+String msg = "";
+String result = "";
+String username = null;
+String userAvatar = null;
+String userID = null;
+String motto = null;
+String table = "";
+String albumID = "";
+int articleNum = 0;
+int catNum = 0;
+int tagNum = 0;
+String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3 0%, #42A5F5 100%","#00BCD4 0%, #80DEEA 100%","#4CAF50 0%, #81C784 100%","#FFEB3B 0%, #FFF176 100%"};
+ArrayList<String> catlist = new ArrayList<String>();
+ArrayList<Integer> catlistNum = new ArrayList<Integer>();
+ArrayList<String> taglist = new ArrayList<String>();
+ArrayList<Integer> tagcount = new ArrayList<Integer>();
+String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7"};
+ArrayList<String> tagcolor = new ArrayList<String>();
+for (int i=0; i<inittagcolor.length; i++)
+	tagcolor.add(inittagcolor[i]);
+ArrayList<String> piclist = new ArrayList<String>();
+username = (String)session.getAttribute("userName");
+String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
+List<Map<String, String>> ttags = new ArrayList<>();
+try {
+	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
+	Connection con=DriverManager.getConnection(conStr, "user", "123");
+	stmt = con.createStatement(); // 创建MySQL语句的对象
+	/* 1.拿到userID */
+	//用户头像路径，座右铭及特有ID
+	String sql_1 = "select * from user where userName = '"+ username +"';";
+	ResultSet rs_1 = stmt.executeQuery(sql_1);//执行查询，返回结果集
+	while(rs_1.next()) { //把游标(cursor)移至第一个或下一个记录
+		userAvatar = rs_1.getString("userAvatar");
+		motto = rs_1.getString("motto");
+		userID = rs_1.getString("userID");
+	}
+	/* 2.统计出类别的数量和每个类别的名称、文章数 */
+	//用户标签数量
+	String sql_4 = "select count(distinct tagName) from tag where userID = "+ userID +";";
+	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
+	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
+		tagNum = rs_4.getInt("count(distinct tagName)");
+	}
+	Random random = new Random();
+	while (tagcolor.size() < tagNum) {
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        tagcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
+	}
+	//文章标签内容
+	String sql_6 = "select distinct tagName from tag where userID = "+ userID +";";
+	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
+	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
+		taglist.add(rs_6.getString("tagName"));
+	}
+	// 每个标签的次数
+	String sql_2;
+	for (int i=0; i<taglist.size(); i++) {
+		sql_2 = "select count(*) from tag where userID = "+ userID + " and tagName = '"+ taglist.get(i) + "';";
+		ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
+		while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
+			tagcount.add(rs_2.getInt("count(*)"));
+		}
+		rs_2.close();
+	}
+    	
+	rs_1.close(); 
+	rs_4.close();
+	rs_6.close();
+	
+	stmt.close(); con.close();
+}
+catch (Exception e){
+	msg = e.getMessage();
+}
 %>
 
 <body>
@@ -180,47 +258,14 @@ conn.close();
                         <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
                     </div>
                     <div class="tag-chips">
-
-
-                        <a href="tags.jsp" title="杂七杂八: 2">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " data-tagname="杂七杂八" style="background-color: #F9EBEA;">杂七杂八
-                        <span class="tag-length">2</span>
-                            </span>
-                        </a>
-
-
-                        <a href="tags.jsp" title="C++: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " data-tagname="C++" style="background-color: #F5EEF8;">C++
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
-
-                        <a href="tags.jsp" title="集群: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " data-tagname="集群" style="background-color: #D5F5E3;">集群
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
-
-                        <a href="tags.jsp" title="深度学习: 6">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " data-tagname="深度学习" style="background-color: #E8F8F5;">深度学习
-                        <span class="tag-length">6</span>
-                            </span>
-                        </a>
-
-
-                        <a href="tags.jsp" title="算法: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " data-tagname="算法" style="background-color: #FEF9E7;">算法
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
+                        <%for (int i=0;i<=tagNum-1;i++){%>
+	                        <a href="tags.jsp" title="<%out.print(taglist.get(i)); %>:<%out.print(tagcount.get(i)); %>">
+	                            <span class="chip center-align waves-effect waves-light
+	                             chip-default " data-tagname="<%out.print(taglist.get(i)); %>" style="background-color: <%out.print(tagcolor.get(i)); %>;"><%out.print(taglist.get(i)); %>
+	                        <span class="tag-length"><%out.print(tagcount.get(i)); %></span>
+	                            </span>
+	                        </a>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -238,30 +283,42 @@ conn.close();
             <div class="card">
                 <div class="myaos" style="margin-left: 32%">
 					<canvas id="pie" width="500" height="300" style="margin-top: 1%">
-					<script>
-						window.onload = function() {
-							var len = 5;
-							//可以获取随机颜色
-							colors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
-							for (var i=colors.length; i<len; ++i) {
-								let r = Math.floor(Math.random() * 256);
-								let g = Math.floor(Math.random() * 256);
-								let b = Math.floor(Math.random() * 256);
-								let rgb = `rgb(${r},${g},${b})`;
-								colors.push(rgb);
+						<script>
+							// labels->taglist, values->tagcount
+							var thislabels = [];
+							<%for(int i=0;i<taglist.size();i++){%>
+								thislabels.push("<%=taglist.get(i)%>");
+							<%}%>	
+							var thisvalues = [];
+							<%for(int i=0;i<tagcount.size();i++){%>
+								thisvalues.push(<%=tagcount.get(i)%>);
+							<%}%>	
+							var len = <%=tagNum%>;
+							window.onload = function() {
+								//var len = 5;
+								//可以获取随机颜色
+								var thiscolors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
+								for (var i=thiscolors.length; i<len; ++i) {
+									let r = Math.floor(Math.random() * 256);
+									let g = Math.floor(Math.random() * 256);
+									let b = Math.floor(Math.random() * 256);
+									let rgb = `rgb(${r},${g},${b})`;
+									thiscolors.push(rgb);
+								}
+								var pie = document.getElementById("pie"),
+								datasets = {
+									colors: thiscolors.slice(0, len), //颜色
+									labels: thislabels,//x轴的标题
+									values: thisvalues, //值
+									//labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//x轴的标题
+									//values: [2, 1, 1, 6, 1], //值
+									x: 125, //圆心x坐标
+									y: 125, //圆心y坐标
+									radius: 100 //半径
+								};
+								pieChart(pie, datasets); //画饼状图
 							}
-							var pie = document.getElementById("pie"),
-							datasets = {
-								colors: colors.slice(0, len), //颜色
-								labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//x轴的标题
-								values: [2, 1, 1, 6, 1], //值
-								x: 125, //圆心x坐标
-								y: 125, //圆心y坐标
-								radius: 100 //半径
-							};
-							pieChart(pie, datasets); //画饼状图
-						}
-					</script>
+						</script>
 					</canvas>
                 </div>
             </div>
