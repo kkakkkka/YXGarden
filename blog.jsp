@@ -73,8 +73,19 @@ conn.close();
 %>
 
 <body>
+
 	<header class="navbar-fixed">
-		<link rel="stylesheet" type="text/css" href="./css/header.css">
+	<%
+	Object obj = session.getAttribute("userName");
+	String uname;
+	if(obj==null){
+		response.sendRedirect("login.jsp");
+		return;
+	}
+	uname = obj.toString();
+	pageContext.setAttribute("uname", uname);
+	%>
+		<link rel="stylesheet" type="text/css" href="./css/header.css?t=2">
 		<script src="./js/header.js"></script>
 		<nav id="nav_header" class="bg-color nav-transparent">
 			<div id="navContainer" class="nav-wrapper container">
@@ -83,12 +94,10 @@ conn.close();
 						src="./medias/logo.png" class="logo-img" alt="LOGO">
 					</a>
 					<div id="login_to_change" style="display: inline;">
-						<!-- <span class="logo-span">UserName</span> -->
+						<span class="logo-span" style="position:relative;bottom:24px;left:5px">
+						<c:out value="${uname}"></c:out></span>
 						<div class="login">
-							<a href="login.jsp"><span>登录</span></a>
-						</div>
-						<div class="login">
-							<a href="register.jsp"><span>注册</span></a>
+							<a href="login.jsp"><span>切换用户</span></a>
 						</div>
 					</div>
 				</div>
@@ -133,6 +142,7 @@ conn.close();
 			</div>
 		</nav>
 	</header>
+
 
 	<div class="bg-cover pd-header about-cover">
 		<div class="container">
