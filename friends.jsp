@@ -55,33 +55,34 @@
 
     <title>About | UserName</title>
     <link rel="icon" type="image/png" href="favicon.ico">
-    <link rel="stylesheet" type="text/css" href="libs/awesome/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="css/matery.css">
-    <link rel="stylesheet" type="text/css" href="css/my.css">
-    <link rel="stylesheet" type="text/css" href="css/myfriends.css">
-    <link rel="stylesheet" type="text/css" href="css/myaos.css">
+    <link rel="stylesheet" type="text/css" href="./css/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/matery.css">
+    <link rel="stylesheet" type="text/css" href="./css/my.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/myaos.css">
+    <link rel="stylesheet" type="text/css" href="./css/myfriends.css" />
     <link rel="alternate" href="atom.xml" title="UserName" type="application/atom+xml">
-    <script src="js/myaos.js"></script>
+    <script src="./js/myaos.js"></script>
 </head>
 
 
 <body>
     <header class="navbar-fixed">
-        <link rel="stylesheet" type="text/css" href="css/header.css">
-        <script src="js/header.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/header.css">
+        <script src="./js/header.js"></script>
         <nav id="nav_header" class="bg-color nav-transparent">
             <div id="navContainer" class="nav-wrapper container">
                 <div class="brand-logo">
                     <a href="home.jsp" class="waves-effect waves-light">
-                        <img src="medias/logo.png" class="logo-img" alt="LOGO">
+                        <img src="./medias/logo.png" class="logo-img" alt="LOGO">
                     </a>
                     <div id="login_to_change" style="display: inline;">
                         <!-- <span class="logo-span">UserName</span> -->
                         <div class="login"><a href="login.jsp"><span>登录</span></a></div>
-                        <div class="login"><a href="register.html"><span>注册</span></a></div>
+                        <div class="login"><a href="register.jsp"><span>注册</span></a></div>
                     </div>
                 </div>
                 <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
@@ -108,7 +109,7 @@
                     </li>
 
                     <li class="hide-on-med-and-down nav-item">
-                        <a href="archives-1.html" class="waves-effect waves-light">
+                        <a href="archives-1.jsp" class="waves-effect waves-light">
                             <i class="fas fa-archive" style="zoom: 0.6;"></i>
                             <span>归档</span>
                         </a>
@@ -122,7 +123,7 @@
                     </li>
 
                     <li class="hide-on-med-and-down nav-item">
-                        <a href="comment.html" class="waves-effect waves-light">
+                        <a href="comment.jsp" class="waves-effect waves-light">
                             <i class="fas fa-comments" style="zoom: 0.6;"></i>
                             <span>留言板</span>
                         </a>
@@ -149,7 +150,7 @@
                         </div>
                         <div class="description center-align">
                             <span id="subtitle"></span>
-                            <script src="js/typed.js"></script>
+                            <script src="./js/myTyped.js"></script>
                             <script>
                                 var typed = new Typed("#subtitle", {
                                     strings: [
@@ -169,9 +170,9 @@
             </div>
             <script>
                 // 每天切换 banner 图.  Switch banner image every day.
-                var bannerUrl = "medias/banner/" + new Date().getDay() + '.jpg';
+                var bannerUrl = "./medias/banner/" + new Date().getDay() + '.jpg';
                 var pick = Math.floor(Math.random() * 7);
-                var bannerUrl = "medias/banner/" + pick + '.jpg';
+                var bannerUrl = "./medias/banner/" + pick + '.jpg';
                 var csstext = document.getElementsByClassName("bg-cover")[0];
                 csstext.style.cssText += "background-image: url( " + bannerUrl + "  )";
             </script>
@@ -263,10 +264,10 @@
     </main>
 
     <footer class="page-footer bg-color">
-        <a href="new.html"><img src="medias/add.png" style="width: 37px;height: 37px; position: fixed; bottom: 60px; right: 11px;"></a>
+        <a href="new.jsp"><img src="./medias/add.png" style="width: 37px;height: 37px; position: fixed; bottom: 60px; right: 11px;"></a>
 
         <div id="toTopButton" style="position: fixed;right: 10px;bottom:10px;cursor: pointer;display: none;" onclick="returnToTop()">
-            <img src="medias/arrow.png" style="width: 40px;height: 40px; ">
+            <img src="./medias/arrow.png" style="width: 40px;height: 40px; ">
             <script>
                 function returnToTop() {
                     document.body.scrollTop = 0;
