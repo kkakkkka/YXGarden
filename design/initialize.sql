@@ -4,7 +4,7 @@ use boke18329015;
 create table User (
 	userID int not null AUTO_INCREMENT,
     password varchar(26) default null,
-	userName varchar(26) DEFAULT NULL,
+	userName varchar(26) DEFAULT NULL UNIQUE,
 	isRoot BOOLEAN DEFAULT FALSE,
 	speechStatus BOOLEAN DEFAULT TRUE,
     userAvatar varchar(255) default null,
@@ -21,6 +21,7 @@ create table Cat (
     primary key (catID),
 	foreign key(userID) references User(userID)
 ) character set = utf8;
+ALTER TABLE cat ADD CONSTRAINT catuni UNIQUE(userID,catName);
 
 create table Tag (
 	tagID int not null AUTO_INCREMENT,

@@ -1,0 +1,2 @@
+insert into user(userName,password,isRoot,speechStatus,motto) values("admin",123,TRUE,TRUE,"我是管理员");
+insert into user(userName,password,isRoot,speechStatus,motto) values("user",123,FALSE,TRUE,"我是普通用户");
