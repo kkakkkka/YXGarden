@@ -1,7 +1,3 @@
-//数组sort()排序传的参数为该函数（降序排列），绘制柱状图需要
-function compare(value1, value2) {
-		return value2 - value1;
-	}
 //求和，计算百分比（画饼图时需要）
 function sumFunc(data) {
 		var sum = 0;
