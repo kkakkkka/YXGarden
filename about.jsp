@@ -321,7 +321,7 @@
                             <div class="sub-title center-align"><i class="fa fa-book"></i>&nbsp;&nbsp;文章标签</div>
                             <div class="tag-chips center-align">
                                 <%for(int i=0;i<=tagNum-1;i++){%>
-                                    <a href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/">
+                                    <a href="tags.jsp">
                                         <span class="chip center-align waves-effect waves-light chip-default"><%out.print(taglist.get(i));%></span>
                                     </a>
                                 <%}%>
