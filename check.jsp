@@ -13,10 +13,21 @@
     <link rel="stylesheet" href="css/57.css">
     
 </head>
-<body>  
+
+<body>
+	<%!
+		public static String TransactSQLInjection(String str)
+	    {
+	          return str.replaceAll(".*([';]+|(--)+).*", " ");
+	
+	    }
+	%>
     <% 
+    	
        String userName=request.getParameter("userName");
        String password=request.getParameter("password");
+       userName=TransactSQLInjection(userName);
+       password=TransactSQLInjection(password);
        
 	    Connection conn = null;
 		try {
