@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="java.io.*,java.util.*,java.util.Random.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -58,6 +58,83 @@ pageContext.setAttribute("articles", articles);
 rs.close();
 stmt.close();
 conn.close();
+/////////////////////////////////////////////////////////////////////////////////////////
+String msg = "";
+String result = "";
+String username = null;
+String userAvatar = null;
+String userID = null;
+String motto = null;
+String table = "";
+String albumID = "";
+int articleNum = 0;
+int catNum = 0;
+int tagNum = 0;
+String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3 0%, #42A5F5 100%","#00BCD4 0%, #80DEEA 100%","#4CAF50 0%, #81C784 100%","#FFEB3B 0%, #FFF176 100%"};
+ArrayList<String> catlist = new ArrayList<String>();
+ArrayList<Integer> catlistNum = new ArrayList<Integer>();
+ArrayList<Integer> catcount = new ArrayList<Integer>();
+String[] initcatcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(36, 223, 177)"};
+ArrayList<String> catcolor = new ArrayList<String>();
+for (int i=0; i<initcatcolor.length; i++)
+	catcolor.add(initcatcolor[i]);
+ArrayList<String> piclist = new ArrayList<String>();
+username = (String)session.getAttribute("userName");
+String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
+List<Map<String, String>> ttags = new ArrayList<>();
+try {
+	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
+	Connection con=DriverManager.getConnection(conStr, "user", "123");
+	stmt = con.createStatement(); // 创建MySQL语句的对象
+	/* 1.拿到userID */
+	//用户头像路径，座右铭及特有ID
+	String sql_1 = "select * from user where userName = '"+ username +"';";
+	ResultSet rs_1 = stmt.executeQuery(sql_1);//执行查询，返回结果集
+	while(rs_1.next()) { //把游标(cursor)移至第一个或下一个记录
+		userAvatar = rs_1.getString("userAvatar");
+		motto = rs_1.getString("motto");
+		userID = rs_1.getString("userID");
+	}
+	/* 2.统计出类别的数量和每个类别的名称、文章数 */
+	//用户标签数量
+	String sql_4 = "select count(distinct catName) from cat where userID = "+ userID +";";
+	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
+	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
+		tagNum = rs_4.getInt("count(distinct catName)");
+	}
+	Random random = new Random();
+	while (catcolor.size() < tagNum) {
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        catcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
+	}
+	//文章标签内容
+	String sql_6 = "select distinct catName from cat where userID = "+ userID +";";
+	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
+	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
+		catlist.add(rs_6.getString("catName"));
+	}
+	// 每个标签的次数
+	String sql_2;
+	for (int i=0; i<catlist.size(); i++) {
+		sql_2 = "select count(*) from cat where userID = "+ userID + " and catName = '"+ catlist.get(i) + "';";
+		ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
+		while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
+			catcount.add(rs_2.getInt("count(*)"));
+		}
+		rs_2.close();
+	}
+    	
+	rs_1.close(); 
+	rs_4.close();
+	rs_6.close();
+	
+	stmt.close(); con.close();
+}
+catch (Exception e){
+	msg = e.getMessage();
+}
 %>
 
 <body>
@@ -179,41 +256,14 @@ conn.close();
                         <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
                     </div>
                     <div class="tag-chips">
-                        <a href="categories.jsp" title="杂七杂八: 2">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " style="background-color: #F9EBEA;">杂七杂八
-                        <span class="tag-length">2</span>
-                            </span>
-                        </a>
-
-                        <a href="categories.jsp" title="C++: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " style="background-color: #F5EEF8;">C++
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
-                        <a href="categories.jsp" title="集群: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " style="background-color: #D5F5E3;">集群
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
-                        <a href="categories.jsp" title="深度学习: 6">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " style="background-color: #E8F8F5;">深度学习
-                        <span class="tag-length">6</span>
-                            </span>
-                        </a>
-
-                        <a href="categories.jsp" title="算法: 1">
-                            <span class="chip center-align waves-effect waves-light
-                             chip-default " style="background-color: #FEF9E7;">算法
-                        <span class="tag-length">1</span>
-                            </span>
-                        </a>
-
+                        <%for (int i=0;i<=tagNum-1;i++){%>
+	                        <a href="categories.jsp" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
+	                            <span class="chip center-align waves-effect waves-light
+	                             chip-default " data-tagname="<%out.print(catlist.get(i)); %>" style="background-color: <%out.print(catcolor.get(i)); %>;"><%out.print(catlist.get(i)); %>
+	                        <span class="tag-length"><%out.print(catcount.get(i)); %></span>
+	                            </span>
+	                        </a>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -236,11 +286,20 @@ conn.close();
                 <div class="myaos"  style="margin-left: 28%;">
 					<canvas id="curve" width="500" height="300">
 					<script>
+						var thislabels = [];
+						<%for(int i=0;i<catlist.size();i++){%>
+							thislabels.push("<%=catlist.get(i)%>");
+						<%}%>	
+						var thisvalues = [];
+						<%for(int i=0;i<catcount.size();i++){%>
+							thisvalues.push(<%=catcount.get(i)%>);
+						<%}%>	
+						var len = <%=tagNum%>;
 						window.onload = function() {
 							var bg = document.getElementById("curve");
 							linedata = {
-								labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//标签
-								datas: [2, 1, 1, 6, 1],//数据
+								labels: thislabels,//标签
+								datas: thisvalues,//数据
 								xTitle: "分类",//x轴标题
 								yTitle: "文章数量",//y轴标题
 								ctxSets:{
