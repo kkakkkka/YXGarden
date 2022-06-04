@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*"%>
@@ -7,6 +8,7 @@
 <%@ page import="org.apache.commons.fileupload.*"%>
 <%@ page import="org.apache.commons.fileupload.disk.*"%>
 <%@ page import="org.apache.commons.fileupload.servlet.*"%>
+<%@ page import="org.apache.commons.lang.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <!DOCTYPE HTML>
@@ -174,7 +176,10 @@ if (request.getMethod().equalsIgnoreCase("post")){
 			if(fi.getFieldName().equals("Cat")) cat = fi.getString("utf-8");
 			if(fi.getFieldName().equals("Tag")) tag = fi.getString("utf-8");
 			if(fi.getFieldName().equals("Title")) title = fi.getString("utf-8");
-			if(fi.getFieldName().equals("Body")) body = fi.getString("utf-8");
+			if(fi.getFieldName().equals("Body")){
+				body = fi.getString("utf-8");
+				body = StringEscapeUtils.escapeJava(body);
+			}
 		}else{
 			DiskFileItem dfi = (DiskFileItem) fi;
 			if (!dfi.getName().trim().equals("")) {
