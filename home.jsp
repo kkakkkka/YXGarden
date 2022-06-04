@@ -223,7 +223,7 @@ conn.close();
 							</a>
 							<div class="card-content article-content">
 								<div class="summary block-with-text">
-									<c:out value="${article.get('content')}"></c:out>
+									<c:out value="${article.get('content')}" escapeXml="false"></c:out>
 								</div>
 								<div class="publish-info">
 									<span class="publish-date"> <i

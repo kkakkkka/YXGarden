@@ -27,6 +27,9 @@
 <script src="./js/myaos.js"></script>
 </head>
 
+<%!
+String content = null;
+%>
 <%
 String blogID_str = request.getParameter("blogID");
 if (blogID_str == null || blogID_str == "") {
@@ -53,7 +56,9 @@ if (rs.next()) {
 	article.put("tagName", rs.getString("tagName"));
 	article.put("catName", rs.getString("catName"));
 	article.put("title", rs.getString("title"));
-	String content = rs.getString("content");
+	content = rs.getString("content");
+	content = content.replace("&lt;", "<");
+	content = content.replace("&gt;", ">");
 	int wordCnt = content.length();
 	String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("releaseTime"));
 	String updateTime = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("updateTime"));
@@ -332,7 +337,7 @@ conn.close();
 									<c:out value="${article.get('title')}"></c:out>
 								</h2>
 								<p style="text-align: left;">
-									<c:out value="${article.get('content')}"></c:out>
+									<%=content %>
 								</p>
 							</div>
 							<hr />
