@@ -25,7 +25,6 @@
         <a href="javascript:;" class="a-upload" style="color: gray;">
             <input type="file" name="uploadfile">点击这里上传文件
         </a>
-        <br>
         <button type="submit" id="submitbutton" onclick="ifsame()" >提交</button>
     </div>
     <div class="square">
