@@ -45,6 +45,7 @@
         ResultSet rs=stmt.executeQuery(sql);
         if(rs.next()){
         	session.putValue("userName",userName);
+            session.putValue("page",1);
             response.sendRedirect("home.jsp");
         }
         // 输出连接信息  
