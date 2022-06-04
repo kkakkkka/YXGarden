@@ -264,7 +264,7 @@
                                         <%}%>
 
                                             <%if(username.equals("tourist")==false){%>
-                                                <div class="col s12 m6 l4 friend-div">
+                                                <div class="col s12 m6 l4 friend-div" style="margin-left:34.5%;">
                                                     <div class="frind-card1 card myaos">
                                                         <div class="frind-ship">
                                                             <div class="title">
