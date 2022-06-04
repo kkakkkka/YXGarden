@@ -16,10 +16,11 @@
 
 <body>
     <div class="login-table">
-        <div class="tit">修改用户信息</div>
+        <div class="tit" style="margin-bottom: 22px">修改用户信息</div>
         <input id="password" name="password" required="required" type="password" placeholder="新密码(不少于3位)">
         <input id="re-password" name="password" required="required" type="password" placeholder="请重复输入新密码">
         <input id="motto" name="motto" type="text" placeholder="个性签名(选填)" />
+        <input id="homepage" name="homepage" type="text" placeholder="个人主页URL(选填)" />
         <br>
         <a href="javascript:;" class="a-upload" style="color: gray;">
             <input type="file" name="uploadfile">点击这里上传文件
@@ -49,7 +50,13 @@
             var motto = document.getElementById("motto").value;
             var rePassword = document.getElementById("re-password").value;
             var password = document.getElementById("password").value;
+            var homepage = document.getElementById("homepage").value;
             var registerButton = document.getElementById("submitbutton");
+            if (homepage.startsWith("www.")) // 有www，没有https
+            	homepage = "https://"+homepage;
+            else if (!homepage.startsWith("https://") && !homepage.startsWith("http://")) // 既没有www，又没有https或http
+            	homepage = "https://www."+homepage;
+            
             if (rePassword != password && rePassword != "" && password != "") {
                 alert("两次密码输入不相同，请重新输入！");
                 document.getElementById("re-password").value = "";
@@ -71,7 +78,7 @@
 				    }
 				  }
 				};
-				xmlhttp.open("get", "makechange.jsp?newpasswd=" + password + "&motto=" + motto, true);
+				xmlhttp.open("get", "makechange.jsp?newpasswd=" + password + "&motto=" + motto + "&homepage=" + homepage, true);
 				xmlhttp.send(null);
             }
         }

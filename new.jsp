@@ -3,6 +3,10 @@
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="org.apache.commons.io.*"%>
+<%@ page import="org.apache.commons.fileupload.*"%>
+<%@ page import="org.apache.commons.fileupload.disk.*"%>
+<%@ page import="org.apache.commons.fileupload.servlet.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <!DOCTYPE HTML>
@@ -156,17 +160,31 @@
 	</div>
 
 <%
+request.setCharacterEncoding("utf-8");
 if (request.getMethod().equalsIgnoreCase("post")){
-	String cat = request.getParameter("Cat");
-	cat = new String(cat.getBytes("ISO8859-1"), "utf-8");
-	String tag = request.getParameter("Tag");
-	tag = new String(tag.getBytes("ISO8859-1"), "utf-8");
-	String title = request.getParameter("Title");
-	title = new String(title.getBytes("ISO8859-1"), "utf-8");
-	String body = request.getParameter("Body");
-	body = new String(body.getBytes("ISO8859-1"), "utf-8");
+	String cat=null,tag=null,title=null,body=null;
 	String uid = session.getAttribute("userID").toString();
 	String imgUrl = "medias/featureimages/" + (int)(Math.random()*24) + ".jpg";
+	FileItemFactory factory = new DiskFileItemFactory();
+	ServletFileUpload upload = new ServletFileUpload(factory);
+	List items = upload.parseRequest(request);
+	for (int i = 0; i < items.size(); i++) {
+		FileItem fi = (FileItem) items.get(i);
+		if (fi.isFormField()){
+			if(fi.getFieldName().equals("Cat")) cat = fi.getString("utf-8");
+			if(fi.getFieldName().equals("Tag")) tag = fi.getString("utf-8");
+			if(fi.getFieldName().equals("Title")) title = fi.getString("utf-8");
+			if(fi.getFieldName().equals("Body")) body = fi.getString("utf-8");
+		}else{
+			DiskFileItem dfi = (DiskFileItem) fi;
+			if (!dfi.getName().trim().equals("")) {
+				//TODO
+// 				String fileName=application.getRealPath("/");
+// 				out.print(fileName);
+// 				dfi.write(new File(fileName));
+			}
+		}
+	}
 	Connection conn = null;
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
@@ -206,7 +224,7 @@ if (request.getMethod().equalsIgnoreCase("post")){
 						</div>
 					</div>
 				</div>
-				<form action="" method="post" onsubmit="return check()">
+				<form action="" method="post" onsubmit="return check()" enctype="multipart/form-data">
 					<div class="input-group" style="width: 80%; margin: auto; display: block !important;">
 						<div class="form-row">
 							<div class="name">分类</div>
