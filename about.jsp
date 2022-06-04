@@ -32,22 +32,22 @@
     		userID = rs_1.getString("userID");
     	}
     	//用户博文数量
-    	String sql_2 = "select count(catID) from cat where userID = "+ userID +";";
+    	String sql_2 = "select count(blogID) from blog where userID = "+ userID +";";
     	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
     	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
-    		articleNum = rs_2.getInt("count(catID)");
+    		articleNum = rs_2.getInt("count(blogID)");
     	}
     	//用户分类数量
-    	String sql_3 = "select count(distinct catName) from cat where userID = "+ userID +";";
+    	String sql_3 = "select count(catID) from cat where userID = "+ userID +";";
     	ResultSet rs_3 = stmt.executeQuery(sql_3);//执行查询，返回结果集
     	while(rs_3.next()) { //把游标(cursor)移至第一个或下一个记录
-    		catNum = rs_3.getInt("count(distinct catName)");
+    		catNum = rs_3.getInt("count(catID)");
     	}
     	//用户标签数量
-    	String sql_4 = "select count(distinct tagName) from tag where userID = "+ userID +";";
+    	String sql_4 = "select count(tagID) from tag where userID = "+ userID +";";
     	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
     	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
-    		tagNum = rs_4.getInt("count(distinct tagName)");
+    		tagNum = rs_4.getInt("count(tagID)");
     	}
     	
     	//技术分布
@@ -131,7 +131,8 @@
                         <nav id="nav_header" class="bg-color nav-transparent">
                             <div id="navContainer" class="nav-wrapper container">
                                 <div class="brand-logo">
-                                    <a href="home.jsp" class="waves-effect waves-light"> <img src="./medias/logo.png" class="logo-img" alt="LOGO">
+                                    <a href="home.jsp" class="waves-effect waves-light"> <img 
+                                    src="./medias/logo.png" class="logo-img" alt="LOGO">
                                     </a>
                                     <div id="login_to_change" style="display: inline;">
                                         <span class="logo-span" style="position:relative;bottom:24px;left:5px">
@@ -144,7 +145,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+                                <a href="#" data-target="mobile-nav" 
+                                class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
                                 <ul class="right nav-menu">
                                     <li class="hide-on-med-and-down nav-item">
                                         <a href="home.jsp" class="waves-effect waves-light"> <i class="fas fa-home" style="zoom: 0.6;"></i> <span>首页</span>
@@ -310,20 +312,18 @@
                                         <i class="fas fa-wrench"></i>&nbsp;&nbsp;技术分布
                                     </div>
                                     <div class="row">
-                                        <%for (int i=0;i<=catNum-1;i++){%>
+                                        <%for (int i=0;i<=catlistNum.size()-1;i++){%>
                                             <div class="col s12 m6 l6">
                                                 <div class="skillbar">
-                                                    <div class="skillbar-title" style="background: linear-gradient(to right, <%out.print(color[i]); %>); 
-                                        width: 80%">
+                                                    <div class="skillbar-title" style="background: linear-gradient(to right, <%out.print(color[i%6]); %>); width: <%out.print((int)(1.0*catlistNum.get(i)/catNum*100)*0.5+50);%>%">
                                                         <span><%out.print(catlist.get(i));%></span>
                                                     </div>
-
                                                     <div class="skill-bar-percent">
-                                                        <%if(articleNum == 0){%>
+                                                        <%if(catNum == 0){%>
                                                             <%out.print(0);%>%
                                                                 <%}%>
-                                                                    <%if(articleNum != 0){%>
-                                                                        <%out.print((int)(1.0*catlistNum.get(i)/articleNum*100));%>%
+                                                                    <%if(catNum != 0){%>
+                                                                        <%out.print((int)(1.0*catlistNum.get(i)/catNum*100));%>%
                                                                             <%}%>
                                                     </div>
                                                 </div>
@@ -334,7 +334,7 @@
                                     <div class="other-skills chip-container">
                                         <div class="sub-title center-align"><i class="fa fa-book"></i>&nbsp;&nbsp;文章标签</div>
                                         <div class="tag-chips center-align">
-                                            <%for(int i=0;i<=tagNum-1;i++){%>
+                                            <%for(int i=0;i<=taglist.size()-1;i++){%>
                                                 <a href="chooseTag.jsp?tagName=<%out.print(taglist.get(i)); %>">
                                                     <span class="chip center-align waves-effect waves-light chip-default"><%out.print(taglist.get(i));%></span>
                                                 </a>
@@ -349,26 +349,15 @@
                                     </div>
                                     <div class="row">
 
-
+									<%for(int i=0;i<=piclist.size()-1&i<=2;i++){ %>
                                         <div class="photo col s12 m6 l4 myaos">
-                                            <div class="img-item" data-src="<%out.print(piclist.get(0));%>.jpg">
-                                                <img src="<%out.print(piclist.get(0));%>.jpg" class="responsive-img">
-                                            </div>
+                                        	
+                                            	<div class="img-item" data-src="<%out.print(piclist.get(i));%>.jpg">
+                                                	<img src="<%out.print(piclist.get(i));%>.jpg" class="responsive-img">
+                                            	</div>                                        	
+                                        	
                                         </div>
-
-                                        <div class="photo col s12 m6 l4 myaos">
-                                            <div class="img-item" data-src="<%out.print(piclist.get(1));%>.jpg">
-                                                <img src="<%out.print(piclist.get(1));%>.jpg" class="responsive-img">
-                                            </div>
-                                        </div>
-
-                                        <div class="photo col s12 m6 l4 myaos">
-                                            <div class="img-item" data-src="<%out.print(piclist.get(2));%>.jpg">
-                                                <img src="<%out.print(piclist.get(2));%>.jpg" class="responsive-img">
-                                            </div>
-                                        </div>
-
-
+                                    <%} %>
                                     </div>
                                 </div>
 
