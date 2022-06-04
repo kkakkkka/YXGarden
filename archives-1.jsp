@@ -21,6 +21,7 @@
     ArrayList <String> tagList = new ArrayList<String>(); // 文章标签
     ArrayList <String> tagIDList = new ArrayList<String>(); // 文章标签的ID
     ArrayList <String> bkList = new ArrayList<String>(); // 文章背景的ID
+    ArrayList <String> blogIDList = new ArrayList<String>(); // 文章背景的ID
 
     try {
         Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
@@ -63,9 +64,10 @@
         rs_3.close();
 
         // 获取文章
-        String sql_4 = "select releaseTime, title, content, catID, tagID, backgroundImg from blog";
+        String sql_4 = "select blogID, releaseTime, title, content, catID, tagID, backgroundImg from blog";
         ResultSet rs_4 = stmt.executeQuery(sql_4);
         while (rs_4.next()) {
+            blogIDList.add(rs_4.getString("blogID"));
             String times = rs_4.getString("releaseTime");
             yearList.add(times.substring(0, 4));
             monthList.add(times.substring(5, 7));
@@ -275,11 +277,9 @@
                 </div> --%>
 
                 <%
-                if (i == 0 || !dayList.get(j).equals(dayList.get(j - 1))) {
-                    out.write("<div class='cd-timeline-img day myaos'>");
-                    out.write("<a>" + dayList.get(j) + "</a>");
-                    out.write("</div>");
-                }
+                out.write("<div class='cd-timeline-img day myaos'>");
+                out.write("<a>" + dayList.get(j) + "</a>");
+                out.write("</div>");
                 %>
                 <%-- <div class="cd-timeline-img day myaos">
                     <span>09</span>
@@ -287,7 +287,7 @@
                 <article class="cd-timeline-content myaos">
                     <div class="article col s12 m6">
                         <div class="card">
-                            <a href="blog.html">
+                            <a href="blog.jsp?blogID=<%=blogIDList.get(j)%>">
                                 <div class="card-image">
                                     <%
                                     out.write("<img src='./" + bkList.get(j) + "' ");
@@ -339,21 +339,15 @@
         left = "disabled";
     else {
         left = "waves-effect waves-light bg-color";
-        laction = "onclick=topage(" + String.valueOf(nowPage - 1) + ")";
+        laction = "href='archives-2.jsp'";
     }
     if (nowPage == pages)
         right = "disabled";
     else {
         right = "waves-effect waves-light bg-color";
-        raction = "onclick=topage(" + String.valueOf(nowPage + 1) + ")";
+        raction = "href='archives-3.jsp'";
     }
     %>
-    <script>
-        function topage(i) {
-            session.putValue("page", i);
-            reload();
-        }
-    </script>
     <div class="container paging">
         <div class="row">
             <div class="col s6 m4 l4">
@@ -369,7 +363,7 @@
             </div>
             <div class="col s6 m4 l4">
                 <%
-                out.write("<a " + laction + "class='right btn-floating btn-large " + left + "'/>");
+                out.write("<a " + raction + " class='right btn-floating btn-large " + right + "'/>");
                 %>
                 <%-- <a class="right btn-floating btn-large <%=right%>"> --%>
                     <i class="fas fa-angle-right"></i>
@@ -400,5 +394,15 @@
         </div>
     </footer>
 </body>
+
+<script>
+    if (window.name != "bencalie") {
+        location.reload();
+        window.name = "bencalie";
+    }
+    else {
+        window.name = "";
+    }
+</script>
 
 </html>
