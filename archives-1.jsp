@@ -311,14 +311,14 @@
                                     </span>
                                     <span class="publish-author">
                                         <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                        <a href="categories.html" class="post-category">
+                                        <a href="categories.jsp" class="post-category">
                                             <%=catList.get(j)%>
                                         </a>
                                     </span>
                                 </div>
                             </div>
                             <div class="card-action article-tags">
-                                <a href="tags.html"><span class="chip bg-color"><%=tagList.get(j)%></span></a>
+                                <a href="tags.jsp"><span class="chip bg-color"><%=tagList.get(j)%></span></a>
                             </div>
                         </div>
                     </div>
