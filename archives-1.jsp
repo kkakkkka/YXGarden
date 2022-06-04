@@ -73,7 +73,8 @@
             monthList.add(times.substring(5, 7));
             dayList.add(times.substring(8, 10));
             titleList.add(rs_4.getString("title"));
-            contentList.add(rs_4.getString("content").substring(0, 70) + "..");
+            String blogs = rs_4.getString("content");
+            contentList.add(blogs.substring(0, Math.min(70, blogs.length())) + "...");
             catIDList.add(rs_4.getString("catID"));
             tagIDList.add(rs_4.getString("tagID"));
             bkList.add(rs_4.getString("backgroundImg"));
