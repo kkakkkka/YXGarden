@@ -22,12 +22,10 @@
     ArrayList <String> tagIDList = new ArrayList<String>(); // 文章标签的ID
     ArrayList <String> bkList = new ArrayList<String>(); // 文章背景的ID
     ArrayList <String> blogIDList = new ArrayList<String>(); // 文章背景的ID
-
     try {
         Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
     	Connection con=DriverManager.getConnection(conStr, "user", "123");
     	Statement stmt = con.createStatement(); // 创建MySQL语句的对象
-
         //用户头像路径，座右铭及特有ID
     	String sql_0 = "select * from user where userName = '"+ username +"';";
     	ResultSet rs_0 = stmt.executeQuery(sql_0);//执行查询，返回结果集
@@ -45,7 +43,6 @@
             userCnt = rs_1.getInt("count(*)");
         }
         rs_1.close();
-
         // 文章数量
         String sql_2 = "select count(*) from blog;";
         ResultSet rs_2 = stmt.executeQuery(sql_2);
@@ -53,7 +50,6 @@
             blogCnt = rs_2.getInt("count(*)");
         }
         rs_2.close();
-
         // 当前用户发表的文章数量
         String sql_3 = "select count(*) from blog where userID = (select userID from user where userName = '" +
                         username + "')";
@@ -62,7 +58,6 @@
             myCnt = rs_3.getInt("count(*)");
         }
         rs_3.close();
-
         // 获取文章
         String sql_4 = "select blogID, releaseTime, title, content, catID, tagID, backgroundImg from blog";
         ResultSet rs_4 = stmt.executeQuery(sql_4);
@@ -80,7 +75,6 @@
             bkList.add(rs_4.getString("backgroundImg"));
         }
         rs_4.close();
-
         // 获取cat
         for (int i = 0; i < yearList.size(); i++) {
             String sql_5 = "select catName from cat where catID = " + catIDList.get(i) + ";";
@@ -89,7 +83,6 @@
                 catList.add(rs_5.getString("catName"));
             }
         }
-
         // 获取tag
         for (int i = 0; i < yearList.size(); i++) {
             String sql_6 = "select tagName from tag where tagID = " + tagIDList.get(i) + ";";
