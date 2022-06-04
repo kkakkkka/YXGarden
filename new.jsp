@@ -8,7 +8,6 @@
 <%@ page import="org.apache.commons.fileupload.*"%>
 <%@ page import="org.apache.commons.fileupload.disk.*"%>
 <%@ page import="org.apache.commons.fileupload.servlet.*"%>
-<%@ page import="org.apache.commons.lang.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <!DOCTYPE HTML>
@@ -178,7 +177,8 @@ if (request.getMethod().equalsIgnoreCase("post")){
 			if(fi.getFieldName().equals("Title")) title = fi.getString("utf-8");
 			if(fi.getFieldName().equals("Body")){
 				body = fi.getString("utf-8");
-				body = StringEscapeUtils.escapeJava(body);
+				body = body.replace("\\","\\\\");
+				body = body.replace("\"","\\\"");
 			}
 		}else{
 			DiskFileItem dfi = (DiskFileItem) fi;
