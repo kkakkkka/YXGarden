@@ -19,7 +19,7 @@
         <div class="tit">修改用户信息</div>
         <input id="password" name="password" required="required" type="password" placeholder="新密码(不少于3位)">
         <input id="re-password" name="password" required="required" type="password" placeholder="请重复输入新密码">
-        <input id="username" name="motto" type="text" placeholder="个性签名(选填)" />
+        <input id="motto" name="motto" type="text" placeholder="个性签名(选填)" />
         <br>
         <a href="javascript:;" class="a-upload" style="color: gray;">
             <input type="file" name="uploadfile">点击这里上传文件
@@ -46,7 +46,7 @@
     </div>
     <script type="text/javascript">
         function ifsame() {
-            var username = document.getElementById("username").value;
+            var motto = document.getElementById("motto").value;
             var rePassword = document.getElementById("re-password").value;
             var password = document.getElementById("password").value;
             var registerButton = document.getElementById("submitbutton");
@@ -71,7 +71,7 @@
 				    }
 				  }
 				};
-				xmlhttp.open("get", "makechange.jsp?newpasswd=" + password, true);
+				xmlhttp.open("get", "makechange.jsp?newpasswd=" + password + "&motto=" + motto, true);
 				xmlhttp.send(null);
             }
         }

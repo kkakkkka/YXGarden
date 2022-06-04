@@ -3,7 +3,6 @@
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-
 <%
 Connection conn = null;
 try {
@@ -63,12 +62,16 @@ catch (Exception e){
 <%
 try {
 	String newpasswd = new String(request.getParameter("newpasswd"));
+	String newmotto = new String(request.getParameter("motto"));
 	Class.forName("com.mysql.jdbc.Driver");
 	String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
 	conn = DriverManager.getConnection(connectionUrl, "user", "123");
 	String SQL = String.format("update user set password = '%s' where userID = %s;", newpasswd, userID);
 	stmt = conn.createStatement();
 	stmt.executeUpdate(SQL);
+	SQL = String.format("update user set motto = '%s' where userID = %s;", newmotto, userID);
+	stmt = conn.createStatement();
+	stmt.executeUpdate(SQL);	
 	out.println("更新成功！");
 	response.setStatus(200);
 	stmt.close();
