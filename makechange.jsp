@@ -63,6 +63,7 @@ catch (Exception e){
 try {
 	String newpasswd = new String(request.getParameter("newpasswd"));
 	String newmotto = new String(request.getParameter("motto"));
+	String newhp= new String(request.getParameter("homepage"));
 	Class.forName("com.mysql.jdbc.Driver");
 	String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
 	conn = DriverManager.getConnection(connectionUrl, "user", "123");
@@ -72,7 +73,13 @@ try {
 	SQL = String.format("update user set motto = '%s' where userID = %s;", newmotto, userID);
 	stmt = conn.createStatement();
 	stmt.executeUpdate(SQL);	
+	SQL = String.format("update user set homePage = '%s' where userID = %s;", newhp, userID);
+	stmt = conn.createStatement();
+	stmt.executeUpdate(SQL);	
 	out.println("更新成功！");
+	out.println("新的密码："+newpasswd);
+	out.println("新的个性签名："+newmotto);
+	out.println("新的个人主页URL："+newhp);
 	response.setStatus(200);
 	stmt.close();
 	conn.close();
