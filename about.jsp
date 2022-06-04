@@ -233,17 +233,17 @@
                         <div class="post-statis col l4 hide-on-med-and-down">
 
                             <div class="statis">
-                                <span class="count"><a href="/"><% out.print(articleNum); %></a></span>
+                                <span class="count"><a href="home.jsp"><% out.print(articleNum); %></a></span>
                                 <span class="name">文章</span>
                             </div>
 
                             <div class="statis">
-                                <span class="count"><a href="/categories"><% out.print(catNum); %></a></span>
+                                <span class="count"><a href="categories.jsp"><% out.print(catNum); %></a></span>
                                 <span class="name">分类</span>
                             </div>
 
                             <div class="statis">
-                                <span class="count"><a href="/tags"><% out.print(tagNum); %></a></span>
+                                <span class="count"><a href="tags.jsp"><% out.print(tagNum); %></a></span>
                                 <span class="name">标签</span>
                             </div>
 
@@ -260,21 +260,21 @@
                                     <div class="post-statis hide-on-large-only">
 
                                         <div class="statis">
-                                            <span class="count"><a href="/"><% out.print(articleNum); %></a></span>
+                                            <span class="count"><a href="home.jsp"><% out.print(articleNum); %></a></span>
                                             <span class="name">文章</span>
                                         </div>
 
 
 
                                         <div class="statis">
-                                            <span class="count"><a href="/categories"><% out.print(catNum); %></a></span>
+                                            <span class="count"><a href="categories.jsp"><% out.print(catNum); %></a></span>
                                             <span class="name">分类</span>
                                         </div>
 
 
 
                                         <div class="statis">
-                                            <span class="count"><a href="/tags"><% out.print(tagNum); %></a></span>
+                                            <span class="count"><a href="tags.jsp"><% out.print(tagNum); %></a></span>
                                             <span class="name">标签</span>
                                         </div>
 
@@ -332,7 +332,7 @@
                             <div class="sub-title center-align"><i class="fa fa-book"></i>&nbsp;&nbsp;文章标签</div>
                             <div class="tag-chips center-align">
                                 <%for(int i=0;i<=tagNum-1;i++){%>
-                                    <a href="tags.jsp">
+                                    <a href="chooseTag.jsp?tagName=<%out.print(taglist.get(i)); %>">
                                         <span class="chip center-align waves-effect waves-light chip-default"><%out.print(taglist.get(i));%></span>
                                     </a>
                                 <%}%>
