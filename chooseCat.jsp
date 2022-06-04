@@ -282,14 +282,18 @@ catch (Exception e){
                                             <%for(int i=0;i<articles.size();i++){%>
                                                 <div class="article col s12 m6 l4 myaos">
                                                     <div class="card">
-                                                        <a href="blog.jsp?blogID=<%out.print(articles.get(i).get(" blogID ")); %>">
-                                                            <div class="card-image">
-                                                                <img src=<%out.print(articles.get(i).get( "backgroundImg")); %> class="responsive-img" alt=
-                                                                <%out.print(articles.get(i).get("title")); %> />
-                                                                    <span class="card-title"><%out.print(articles.get(i).get("title")); %></span>
-                                                            </div>
-                                                        </a>
-                                                        <div class="card-content article-content">
+						<a
+							href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
+							<div class="card-image">
+								<img src=<%out.print(articles.get(i).get( "backgroundImg")); %>
+									class="responsive-img"
+									alt=<%out.print(articles.get(i).get("title")); %> /> <span
+									class="card-title">
+									<%out.print(articles.get(i).get("title")); %>
+								</span>
+							</div>
+						</a>
+						<div class="card-content article-content">
                                                             <div class="summary block-with-text">
                                                                 <%out.print(articles.get(i).get("content")); %>
                                                             </div>
