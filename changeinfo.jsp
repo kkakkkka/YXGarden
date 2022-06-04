@@ -52,6 +52,11 @@
             var password = document.getElementById("password").value;
             var homepage = document.getElementById("homepage").value;
             var registerButton = document.getElementById("submitbutton");
+            if (homepage.startsWith("www.")) // 有www，没有https
+            	homepage = "https://"+homepage;
+            else if (!homepage.startsWith("https://") && !homepage.startsWith("http://")) // 既没有www，又没有https或http
+            	homepage = "https://www."+homepage;
+            
             if (rePassword != password && rePassword != "" && password != "") {
                 alert("两次密码输入不相同，请重新输入！");
                 document.getElementById("re-password").value = "";
