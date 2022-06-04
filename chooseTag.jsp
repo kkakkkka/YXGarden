@@ -1,3 +1,4 @@
+<!-- 此页面无法单独运行，需要由其他页面调用执行，单独执行会出错！！！ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*,java.util.Random.*"%>
@@ -42,19 +43,6 @@ String SQL = "select blogID,title,content,releaseTime,backgroundImg,catName,tagN
 Statement stmt = conn.createStatement();
 ResultSet rs = stmt.executeQuery(SQL);
 List<Map<String, String>> articles = new ArrayList<>();
-while (rs.next()) {
-	Map<String, String> map = new HashMap<>();
-	map.put("blogID", Integer.toString(rs.getInt("blogID")));
-	map.put("title", rs.getString("title"));
-	map.put("content", rs.getString("content"));
-	map.put("backgroundImg", rs.getString("backgroundImg"));
-	map.put("catName", rs.getString("catName"));
-	map.put("tagName", rs.getString("tagName"));
-	String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("releaseTime"));
-	map.put("releaseTime", releaseTime);
-	articles.add(map);
-}
-pageContext.setAttribute("articles", articles);
 rs.close();
 stmt.close();
 conn.close();
@@ -82,7 +70,7 @@ for (int i=0; i<inittagcolor.length; i++)
 ArrayList<String> piclist = new ArrayList<String>();
 username = (String)session.getAttribute("userName");
 String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
-List<Map<String, String>> ttags = new ArrayList<>();
+String tagName = new String(request.getParameter("tagName"));
 try {
 	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
 	Connection con=DriverManager.getConnection(conStr, "user", "123");
@@ -126,6 +114,23 @@ try {
 		}
 		rs_2.close();
 	}
+	
+	// 当前标签下的文章信息
+	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and tagName = '%s')", userID, tagName);
+	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
+	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
+		Map<String, String> map = new HashMap<>();
+		map.put("blogID", Integer.toString(rs_2.getInt("blogID")));
+		map.put("title", rs_2.getString("title"));
+		map.put("content", rs_2.getString("content"));
+		map.put("backgroundImg", rs_2.getString("backgroundImg"));
+		map.put("catName", rs_2.getString("catName"));
+		map.put("tagName", rs_2.getString("tagName"));
+		String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs_2.getTimestamp("releaseTime"));
+		map.put("releaseTime", releaseTime);
+		articles.add(map);
+	}
+	rs_2.close();
 	rs_1.close(); 
 	rs_4.close();
 	rs_6.close();
@@ -279,50 +284,51 @@ catch (Exception e){
             }
         </style>
 
-        <div class="container">
-            <div class="card">
-                <div class="myaos" style="margin-left: 32%">
-					<canvas id="pie" width="500" height="230" style="margin-top: 1%; margin-left: 2%">
-						<script>
-							// labels->taglist, values->tagcount
-							var thislabels = [];
-							<%for(int i=0;i<taglist.size();i++){%>
-								thislabels.push("<%=taglist.get(i)%>");
-							<%}%>	
-							var thisvalues = [];
-							<%for(int i=0;i<tagcount.size();i++){%>
-								thisvalues.push(<%=tagcount.get(i)%>);
-							<%}%>	
-							var len = <%=tagNum%>;
-							window.onload = function() {
-								//var len = 5;
-								//可以获取随机颜色
-								var thiscolors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
-								for (var i=thiscolors.length; i<len; ++i) {
-									let r = Math.floor(Math.random() * 256);
-									let g = Math.floor(Math.random() * 256);
-									let b = Math.floor(Math.random() * 256);
-									let rgb = `rgb(${r},${g},${b})`;
-									thiscolors.push(rgb);
-								}
-								var pie = document.getElementById("pie"),
-								datasets = {
-									colors: thiscolors.slice(0, len), //颜色
-									labels: thislabels,//x轴的标题
-									values: thisvalues, //值
-									//labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//x轴的标题
-									//values: [2, 1, 1, 6, 1], //值
-									x: 125, //圆心x坐标
-									y: 125, //圆心y坐标
-									radius: 100 //半径
-								};
-								pieChart(pie, datasets); //画饼状图
-							}
-						</script>
-					</canvas>
-                </div>
+           		<article id="articles" class="container articles">
+			<div class="row article-row">
+				<!-- 单个文章 -->
+				<%for(int i=0;i<articles.size();i++){%>
+					<div class="article col s12 m6 l4 myaos">
+						<div class="card">
+							<a href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
+								<div class="card-image">
+									<img
+										src=<%out.print(articles.get(i).get("backgroundImg")); %>
+										class="responsive-img"
+										alt=<%out.print(articles.get(i).get("title")); %> />
+									<span class="card-title"><%out.print(articles.get(i).get("title")); %></span>
+								</div>
+							</a>
+							<div class="card-content article-content">
+								<div class="summary block-with-text">
+									<%out.print(articles.get(i).get("content")); %>
+								</div>
+								<div class="publish-info">
+									<span class="publish-date"> <i
+										class="far fa-clock fa-fw icon-date"></i> 
+										<%out.print(articles.get(i).get("releaseTime")); %>
+									</span> <span class="publish-author"> <i
+										class="fas fa-bookmark fa-fw icon-category"></i> <a
+										href="categories.jsp" class="post-category">
+										<%out.print(articles.get(i).get("catName")); %>
+									</a>
+									</span>
+								</div>
+							</div>
+							<div class="card-action article-tags" style="position: relative;">
+								<a href="tags.jsp"> <span class="chip bg-color">
+								<%out.print(articles.get(i).get("tagName")); %>
+											</span>
+								</a> <img src="./medias/trash.png" 
+									onclick=delBlog(<%out.print(articles.get(i).get("blogID")); %>)
+									style="position: absolute; right: 10px; width: 20px; height: 20px; cursor: pointer;">
+							</div>
+						</div>
+					</div>
+				<%}%>	
+				<!-- 单个文章 -->            
             </div>
-        </div>
+		</article>
 
     </main>
 
