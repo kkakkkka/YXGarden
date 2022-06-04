@@ -309,16 +309,12 @@
                                 <div class="col s12 m6 l6">
                                     <div class="skillbar">
                                         <div class="skillbar-title" style="background: linear-gradient(to right, <%out.print(color[i]); %>); 
-                                        width: 
-                                        <%if(articleNum != 0){ %>
-                                        <%out.print((int)(1.0*catlistNum.get(i)/articleNum*100));%>%"
-                                        <% }%>
-                                        <%if(articleNum == 0){ %>
-                                        <%out.print(0);%>%"
-                                        <% }%>
-                                        >                                      	
+                                        width: 80%"
+
+                                        >                            	
                                             <span><%out.print(catlist.get(i));%></span>
                                         </div>
+                                        
                                         <div class="skill-bar-percent">
                                         <%if(articleNum == 0){%>
                                         	<%out.print(0);%>%
