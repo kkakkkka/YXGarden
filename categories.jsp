@@ -69,7 +69,6 @@ String table = "";
 String albumID = "";
 int articleNum = 0;
 int catNum = 0;
-int tagNum = 0;
 String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3 0%, #42A5F5 100%","#00BCD4 0%, #80DEEA 100%","#4CAF50 0%, #81C784 100%","#FFEB3B 0%, #FFF176 100%"};
 ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
@@ -100,10 +99,10 @@ try {
 	String sql_4 = "select count(distinct catName) from cat where userID = "+ userID +";";
 	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
 	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
-		tagNum = rs_4.getInt("count(distinct catName)");
+		catNum = rs_4.getInt("count(distinct catName)");
 	}
 	Random random = new Random();
-	while (catcolor.size() < tagNum) {
+	while (catcolor.size() < catNum) {
         int r = random.nextInt(256);
         int g = random.nextInt(256);
         int b = random.nextInt(256);
@@ -256,8 +255,8 @@ catch (Exception e){
                         <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
                     </div>
                     <div class="tag-chips">
-                        <%for (int i=0;i<=tagNum-1;i++){%>
-	                        <a href="categories.jsp" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
+                        <%for (int i=0;i<=catNum-1;i++){%>
+	                        <a href="chooseCat.jsp?catName=<%out.print(catlist.get(i)); %>"" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
 	                            <span class="chip center-align waves-effect waves-light
 	                             chip-default " data-tagname="<%out.print(catlist.get(i)); %>" style="background-color: <%out.print(catcolor.get(i)); %>;"><%out.print(catlist.get(i)); %>
 	                        <span class="tag-length"><%out.print(catcount.get(i)); %></span>
@@ -294,7 +293,7 @@ catch (Exception e){
 						<%for(int i=0;i<catcount.size();i++){%>
 							thisvalues.push(<%=catcount.get(i)%>);
 						<%}%>	
-						var len = <%=tagNum%>;
+						var len = <%=catNum%>;
 						window.onload = function() {
 							var bg = document.getElementById("curve");
 							linedata = {

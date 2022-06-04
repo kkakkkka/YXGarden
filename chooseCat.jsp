@@ -1,3 +1,4 @@
+<!-- 此页面无法单独运行，需要由其他页面调用执行，单独执行会出错！！！ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*,java.util.Random.*"%>
@@ -38,25 +39,8 @@ try {
 	out.write("<script>alert('连接数据库出错！');</script>");
 	return;
 }
-String SQL = "select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag;";
-Statement stmt = conn.createStatement();
-ResultSet rs = stmt.executeQuery(SQL);
+Statement stmt;
 List<Map<String, String>> articles = new ArrayList<>();
-while (rs.next()) {
-	Map<String, String> map = new HashMap<>();
-	map.put("blogID", Integer.toString(rs.getInt("blogID")));
-	map.put("title", rs.getString("title"));
-	map.put("content", rs.getString("content"));
-	map.put("backgroundImg", rs.getString("backgroundImg"));
-	map.put("catName", rs.getString("catName"));
-	map.put("tagName", rs.getString("tagName"));
-	String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("releaseTime"));
-	map.put("releaseTime", releaseTime);
-	articles.add(map);
-}
-pageContext.setAttribute("articles", articles);
-rs.close();
-stmt.close();
 conn.close();
 /////////////////////////////////////////////////////////////////////////////////////////
 String msg = "";
@@ -69,20 +53,19 @@ String table = "";
 String albumID = "";
 int articleNum = 0;
 int catNum = 0;
-int tagNum = 0;
 String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3 0%, #42A5F5 100%","#00BCD4 0%, #80DEEA 100%","#4CAF50 0%, #81C784 100%","#FFEB3B 0%, #FFF176 100%"};
 ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
 ArrayList<String> taglist = new ArrayList<String>();
-ArrayList<Integer> tagcount = new ArrayList<Integer>();
-String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(163, 238, 217)"};
-ArrayList<String> tagcolor = new ArrayList<String>();
-for (int i=0; i<inittagcolor.length; i++)
-	tagcolor.add(inittagcolor[i]);
+ArrayList<Integer> catcount = new ArrayList<Integer>();
+String[] initcatcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(150, 249, 147)"};
+ArrayList<String> catcolor = new ArrayList<String>();
+for (int i=0; i<initcatcolor.length; i++)
+	catcolor.add(initcatcolor[i]);
 ArrayList<String> piclist = new ArrayList<String>();
 username = (String)session.getAttribute("userName");
 String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
-List<Map<String, String>> ttags = new ArrayList<>();
+String catName = new String(request.getParameter("catName"));
 try {
 	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
 	Connection con=DriverManager.getConnection(conStr, "user", "123");
@@ -97,35 +80,52 @@ try {
 		userID = rs_1.getString("userID");
 	}
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
-	//用户标签数量
-	String sql_4 = "select count(distinct tagName) from tag where userID = "+ userID +";";
+	//用户分类数量
+	String sql_4 = "select count(distinct catName) from cat where userID = "+ userID +";";
 	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
 	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
-		tagNum = rs_4.getInt("count(distinct tagName)");
+		catNum = rs_4.getInt("count(distinct catName)");
 	}
 	Random random = new Random();
-	while (tagcolor.size() < tagNum) {
+	while (catcolor.size() < catNum) {
         int r = random.nextInt(256);
         int g = random.nextInt(256);
         int b = random.nextInt(256);
-        tagcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
+        catcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
 	}
-	//文章标签内容
-	String sql_6 = "select distinct tagName from tag where userID = "+ userID +";";
+	//文章类别内容
+	String sql_6 = "select distinct catName from cat where userID = "+ userID +";";
 	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
 	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
-		taglist.add(rs_6.getString("tagName"));
+		catlist.add(rs_6.getString("catName"));
 	}
 	// 每个标签的次数
 	String sql_2;
-	for (int i=0; i<taglist.size(); i++) {
-		sql_2 = "select count(*) from tag where userID = "+ userID + " and tagName = '"+ taglist.get(i) + "';";
+	for (int i=0; i<catlist.size(); i++) {
+		sql_2 = "select count(*) from cat where userID = "+ userID + " and catName = '"+ catlist.get(i) + "';";
 		ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
 		while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
-			tagcount.add(rs_2.getInt("count(*)"));
+			catcount.add(rs_2.getInt("count(*)"));
 		}
 		rs_2.close();
 	}
+	
+	// 当前标签下的文章信息
+	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and catName = '%s')", userID, catName);
+	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
+	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
+		Map<String, String> map = new HashMap<>();
+		map.put("blogID", Integer.toString(rs_2.getInt("blogID")));
+		map.put("title", rs_2.getString("title"));
+		map.put("content", rs_2.getString("content"));
+		map.put("backgroundImg", rs_2.getString("backgroundImg"));
+		map.put("catName", rs_2.getString("catName"));
+		map.put("tagName", rs_2.getString("tagName"));
+		String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs_2.getTimestamp("releaseTime"));
+		map.put("releaseTime", releaseTime);
+		articles.add(map);
+	}
+	rs_2.close();
 	rs_1.close(); 
 	rs_4.close();
 	rs_6.close();
@@ -254,15 +254,15 @@ catch (Exception e){
             <div class="card">
                 <div class="card-content">
                     <div class="tag-title center-align">
-                        <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
+                        <i class="fas fa-tags"></i>&nbsp;&nbsp;文章分类
                     </div>
                     <div class="tag-chips">
-                        <%for (int i=0;i<=tagNum-1;i++){%>
-	                        <a href="chooseTag.jsp?tagName=<%out.print(taglist.get(i)); %>" title="<%out.print(taglist.get(i)); %>:<%out.print(tagcount.get(i)); %>">
+                        <%for (int i=0;i<=catNum-1;i++){%>
+	                        <a href="chooseCat.jsp?catName=<%out.print(catlist.get(i)); %>" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
 	                            <span class="chip center-align waves-effect waves-light
-	                             chip-default " data-tagname="<%out.print(taglist.get(i)); %>" 
-	                             style="background-color: <%out.print(tagcolor.get(i)); %>;"><%out.print(taglist.get(i)); %>
-	                        <span class="tag-length"><%out.print(tagcount.get(i)); %></span>
+	                             chip-default " data-tagname="<%out.print(catlist.get(i)); %>" 
+	                             style="background-color: <%out.print(catcolor.get(i)); %>;"><%out.print(catlist.get(i)); %>
+	                        <span class="tag-length"><%out.print(catcount.get(i)); %></span>
 	                            </span>
 	                        </a>
                         <%}%>
@@ -279,50 +279,51 @@ catch (Exception e){
             }
         </style>
 
-        <div class="container">
-            <div class="card">
-                <div class="myaos" style="margin-left: 32%">
-					<canvas id="pie" width="500" height="230" style="margin-top: 1%; margin-left: 2%">
-						<script>
-							// labels->taglist, values->tagcount
-							var thislabels = [];
-							<%for(int i=0;i<taglist.size();i++){%>
-								thislabels.push("<%=taglist.get(i)%>");
-							<%}%>	
-							var thisvalues = [];
-							<%for(int i=0;i<tagcount.size();i++){%>
-								thisvalues.push(<%=tagcount.get(i)%>);
-							<%}%>	
-							var len = <%=tagNum%>;
-							window.onload = function() {
-								//可以获取随机颜色
-								var thiscolors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
-								for (var i=thiscolors.length; i<len; ++i) {
-									let r = Math.floor(Math.random() * 256);
-									let g = Math.floor(Math.random() * 256);
-									let b = Math.floor(Math.random() * 256);
-									let rgb = `rgb(${r},${g},${b})`;
-									thiscolors.push(rgb);
-								}
-								var pie = document.getElementById("pie"),
-								datasets = {
-									//colors: thiscolors.slice(0, len), //颜色
-									colors: thiscolors, //颜色
-									labels: thislabels,//x轴的标题
-									values: thisvalues, //值
-									//labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//x轴的标题
-									//values: [2, 1, 1, 6, 1], //值
-									x: 125, //圆心x坐标
-									y: 125, //圆心y坐标
-									radius: 100 //半径
-								};
-								pieChart(pie, datasets); //画饼状图
-							}
-						</script>
-					</canvas>
-                </div>
+           		<article id="articles" class="container articles">
+			<div class="row article-row">
+				<!-- 单个文章 -->
+				<%for(int i=0;i<articles.size();i++){%>
+					<div class="article col s12 m6 l4 myaos">
+						<div class="card">
+							<a href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
+								<div class="card-image">
+									<img
+										src=<%out.print(articles.get(i).get("backgroundImg")); %>
+										class="responsive-img"
+										alt=<%out.print(articles.get(i).get("title")); %> />
+									<span class="card-title"><%out.print(articles.get(i).get("title")); %></span>
+								</div>
+							</a>
+							<div class="card-content article-content">
+								<div class="summary block-with-text">
+									<%out.print(articles.get(i).get("content")); %>
+								</div>
+								<div class="publish-info">
+									<span class="publish-date"> <i
+										class="far fa-clock fa-fw icon-date"></i> 
+										<%out.print(articles.get(i).get("releaseTime")); %>
+									</span> <span class="publish-author"> <i
+										class="fas fa-bookmark fa-fw icon-category"></i> <a
+										href="categories.jsp" class="post-category">
+										<%out.print(articles.get(i).get("catName")); %>
+									</a>
+									</span>
+								</div>
+							</div>
+							<div class="card-action article-tags" style="position: relative;">
+								<a href="tags.jsp"> <span class="chip bg-color">
+								<%out.print(articles.get(i).get("catName")); %>
+											</span>
+								</a> <img src="./medias/trash.png" 
+									onclick=delBlog(<%out.print(articles.get(i).get("blogID")); %>)
+									style="position: absolute; right: 10px; width: 20px; height: 20px; cursor: pointer;">
+							</div>
+						</div>
+					</div>
+				<%}%>	
+				<!-- 单个文章 -->            
             </div>
-        </div>
+		</article>
 
     </main>
 

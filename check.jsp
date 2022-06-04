@@ -44,6 +44,7 @@
         Statement stmt = conn.createStatement();
         ResultSet rs=stmt.executeQuery(sql);
         if(rs.next()){
+        	session.putValue("userID", Integer.toString(rs.getInt("userID")));
         	session.putValue("userName",userName);
             session.putValue("page",1);
             response.sendRedirect("home.jsp");
