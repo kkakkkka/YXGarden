@@ -21,7 +21,6 @@ create table Cat (
     primary key (catID),
 	foreign key(userID) references User(userID)
 ) character set = utf8;
-ALTER TABLE cat ADD CONSTRAINT catuni UNIQUE(userID,catName);
 
 create table Tag (
 	tagID int not null AUTO_INCREMENT,
@@ -33,9 +32,9 @@ create table Tag (
 
 create table Blog (
 	blogID int not null AUTO_INCREMENT,
-    userID int default null,
-    catID int default null,
-	tagID int default null,
+    userID int not null,
+    catID int not null,
+	tagID int not null,
     title text,
     content longtext,
     releaseTime timestamp not null default current_timestamp,
