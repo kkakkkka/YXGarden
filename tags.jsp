@@ -75,7 +75,7 @@ ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
 ArrayList<String> taglist = new ArrayList<String>();
 ArrayList<Integer> tagcount = new ArrayList<Integer>();
-String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(150, 249, 147)"};
+String[] inittagcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(163, 238, 217)"};
 ArrayList<String> tagcolor = new ArrayList<String>();
 for (int i=0; i<inittagcolor.length; i++)
 	tagcolor.add(inittagcolor[i]);
@@ -295,7 +295,6 @@ catch (Exception e){
 							<%}%>	
 							var len = <%=tagNum%>;
 							window.onload = function() {
-								//var len = 5;
 								//可以获取随机颜色
 								var thiscolors = ["#00868B", "#8B658B", "#FFA07A", "#1E90FF", "#B452CD", "#4876FF", "#CDBE70", "#EEB422", "#00CD00", "#FF3030", "#EE6AA7"]
 								for (var i=thiscolors.length; i<len; ++i) {
@@ -307,7 +306,8 @@ catch (Exception e){
 								}
 								var pie = document.getElementById("pie"),
 								datasets = {
-									colors: thiscolors.slice(0, len), //颜色
+									//colors: thiscolors.slice(0, len), //颜色
+									colors: thiscolors, //颜色
 									labels: thislabels,//x轴的标题
 									values: thisvalues, //值
 									//labels: ["杂七杂八", "集群", "C++", "深度学习", "算法"],//x轴的标题
