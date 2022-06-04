@@ -131,8 +131,7 @@
                         <nav id="nav_header" class="bg-color nav-transparent">
                             <div id="navContainer" class="nav-wrapper container">
                                 <div class="brand-logo">
-                                    <a href="home.jsp" class="waves-effect waves-light"> <img 
-                                    src="./medias/logo.png" class="logo-img" alt="LOGO">
+                                    <a href="home.jsp" class="waves-effect waves-light"> <img src="./medias/logo.png" class="logo-img" alt="LOGO">
                                     </a>
                                     <div id="login_to_change" style="display: inline;">
                                         <span class="logo-span" style="position:relative;bottom:24px;left:5px">
@@ -143,10 +142,14 @@
                                         <div class="login">
                                             <a href="changeinfo.jsp"><span>修改信息</span></a>
                                         </div>
+                                        <%if (uname.equals("admin")) {%>
+                                            <div class="login">
+                                                <a href="manage.jsp"><span>后台管理</span></a>
+                                            </div>
+                                            <%}%>
                                     </div>
                                 </div>
-                                <a href="#" data-target="mobile-nav" 
-                                class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+                                <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
                                 <ul class="right nav-menu">
                                     <li class="hide-on-med-and-down nav-item">
                                         <a href="home.jsp" class="waves-effect waves-light"> <i class="fas fa-home" style="zoom: 0.6;"></i> <span>首页</span>
@@ -349,15 +352,15 @@
                                     </div>
                                     <div class="row">
 
-									<%for(int i=0;i<=piclist.size()-1&i<=2;i++){ %>
-                                        <div class="photo col s12 m6 l4 myaos">
-                                        	
-                                            	<div class="img-item" data-src="<%out.print(piclist.get(i));%>.jpg">
-                                                	<img src="<%out.print(piclist.get(i));%>.jpg" class="responsive-img">
-                                            	</div>                                        	
-                                        	
-                                        </div>
-                                    <%} %>
+                                        <%for(int i=0;i<=piclist.size()-1&i<=2;i++){ %>
+                                            <div class="photo col s12 m6 l4 myaos">
+
+                                                <div class="img-item" data-src="<%out.print(piclist.get(i));%>.jpg">
+                                                    <img src="<%out.print(piclist.get(i));%>.jpg" class="responsive-img">
+                                                </div>
+
+                                            </div>
+                                            <%} %>
                                     </div>
                                 </div>
 

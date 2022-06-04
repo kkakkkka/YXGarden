@@ -148,6 +148,11 @@
                                         <div class="login">
                                             <a href="changeinfo.jsp"><span>修改信息</span></a>
                                         </div>
+                                        <%if (uname.equals("admin")) {%>
+                                            <div class="login">
+                                                <a href="manage.jsp"><span>后台管理</span></a>
+                                            </div>
+                                            <%}%>
                                     </div>
                                 </div>
                                 <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>

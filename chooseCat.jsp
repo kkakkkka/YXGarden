@@ -162,6 +162,11 @@ catch (Exception e){
                                                         <div class="login">
                                                             <a href="changeinfo.jsp"><span>修改信息</span></a>
                                                         </div>
+                                                        <%if (uname.equals("admin")) {%>
+                                                            <div class="login">
+                                                                <a href="manage.jsp"><span>后台管理</span></a>
+                                                            </div>
+                                                            <%}%>
                                                     </div>
                                                 </div>
                                                 <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
@@ -282,18 +287,15 @@ catch (Exception e){
                                             <%for(int i=0;i<articles.size();i++){%>
                                                 <div class="article col s12 m6 l4 myaos">
                                                     <div class="card">
-						<a
-							href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
-							<div class="card-image">
-								<img src=<%out.print(articles.get(i).get( "backgroundImg")); %>
-									class="responsive-img"
-									alt=<%out.print(articles.get(i).get("title")); %> /> <span
-									class="card-title">
+                                                        <a href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
+                                                            <div class="card-image">
+                                                                <img src=<%out.print(articles.get(i).get( "backgroundImg")); %> class="responsive-img" alt=
+                                                                <%out.print(articles.get(i).get("title")); %> /> <span class="card-title">
 									<%out.print(articles.get(i).get("title")); %>
 								</span>
-							</div>
-						</a>
-						<div class="card-content article-content">
+                                                            </div>
+                                                        </a>
+                                                        <div class="card-content article-content">
                                                             <div class="summary block-with-text">
                                                                 <%out.print(articles.get(i).get("content")); %>
                                                             </div>
