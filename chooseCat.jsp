@@ -1,3 +1,4 @@
+<!-- 此页面无法单独运行，需要由其他页面调用执行，单独执行会出错！！！ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*,java.util.Random.*"%>
@@ -38,25 +39,8 @@ try {
 	out.write("<script>alert('连接数据库出错！');</script>");
 	return;
 }
-String SQL = "select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag;";
-Statement stmt = conn.createStatement();
-ResultSet rs = stmt.executeQuery(SQL);
+Statement stmt;
 List<Map<String, String>> articles = new ArrayList<>();
-while (rs.next()) {
-	Map<String, String> map = new HashMap<>();
-	map.put("blogID", Integer.toString(rs.getInt("blogID")));
-	map.put("title", rs.getString("title"));
-	map.put("content", rs.getString("content"));
-	map.put("backgroundImg", rs.getString("backgroundImg"));
-	map.put("catName", rs.getString("catName"));
-	map.put("tagName", rs.getString("tagName"));
-	String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("releaseTime"));
-	map.put("releaseTime", releaseTime);
-	articles.add(map);
-}
-pageContext.setAttribute("articles", articles);
-rs.close();
-stmt.close();
 conn.close();
 /////////////////////////////////////////////////////////////////////////////////////////
 String msg = "";
@@ -72,6 +56,7 @@ int catNum = 0;
 String[] color = {"#FF0066 0%, #FF00CC 100%","#9900FF 0%, #CC66FF 100%","#2196F3 0%, #42A5F5 100%","#00BCD4 0%, #80DEEA 100%","#4CAF50 0%, #81C784 100%","#FFEB3B 0%, #FFF176 100%"};
 ArrayList<String> catlist = new ArrayList<String>();
 ArrayList<Integer> catlistNum = new ArrayList<Integer>();
+ArrayList<String> taglist = new ArrayList<String>();
 ArrayList<Integer> catcount = new ArrayList<Integer>();
 String[] initcatcolor = {"#F9EBEA","#F5EEF8","#D5F5E3","#E8F8F5","#FEF9E7", "rgb(150, 249, 147)"};
 ArrayList<String> catcolor = new ArrayList<String>();
@@ -80,7 +65,7 @@ for (int i=0; i<initcatcolor.length; i++)
 ArrayList<String> piclist = new ArrayList<String>();
 username = (String)session.getAttribute("userName");
 String conStr = "jdbc:mysql://172.18.187.253:3306/boke18329015" + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
-List<Map<String, String>> ttags = new ArrayList<>();
+String catName = new String(request.getParameter("catName"));
 try {
 	Class.forName("com.mysql.jdbc.Driver"); // 查找数据库驱动类
 	Connection con=DriverManager.getConnection(conStr, "user", "123");
@@ -95,7 +80,7 @@ try {
 		userID = rs_1.getString("userID");
 	}
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
-	//用户标签数量
+	//用户分类数量
 	String sql_4 = "select count(distinct catName) from cat where userID = "+ userID +";";
 	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
 	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
@@ -108,7 +93,7 @@ try {
         int b = random.nextInt(256);
         catcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
 	}
-	//文章标签内容
+	//文章类别内容
 	String sql_6 = "select distinct catName from cat where userID = "+ userID +";";
 	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
 	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
@@ -124,7 +109,23 @@ try {
 		}
 		rs_2.close();
 	}
-    	
+	
+	// 当前标签下的文章信息
+	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and catName = '%s')", userID, catName);
+	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
+	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
+		Map<String, String> map = new HashMap<>();
+		map.put("blogID", Integer.toString(rs_2.getInt("blogID")));
+		map.put("title", rs_2.getString("title"));
+		map.put("content", rs_2.getString("content"));
+		map.put("backgroundImg", rs_2.getString("backgroundImg"));
+		map.put("catName", rs_2.getString("catName"));
+		map.put("tagName", rs_2.getString("tagName"));
+		String releaseTime = new SimpleDateFormat("yyyy-MM-dd").format(rs_2.getTimestamp("releaseTime"));
+		map.put("releaseTime", releaseTime);
+		articles.add(map);
+	}
+	rs_2.close();
 	rs_1.close(); 
 	rs_4.close();
 	rs_6.close();
@@ -248,17 +249,19 @@ catch (Exception e){
 	</div>
 
     <main class="content">
-        <div id="category-cloud" class="container chip-container">
+
+        <div id="tags" class="container chip-container">
             <div class="card">
                 <div class="card-content">
                     <div class="tag-title center-align">
-                        <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
+                        <i class="fas fa-tags"></i>&nbsp;&nbsp;文章分类
                     </div>
                     <div class="tag-chips">
                         <%for (int i=0;i<=catNum-1;i++){%>
-	                        <a href="chooseCat.jsp?catName=<%out.print(catlist.get(i)); %>"" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
+	                        <a href="chooseCat.jsp?catName=<%out.print(catlist.get(i)); %>" title="<%out.print(catlist.get(i)); %>:<%out.print(catcount.get(i)); %>">
 	                            <span class="chip center-align waves-effect waves-light
-	                             chip-default " data-tagname="<%out.print(catlist.get(i)); %>" style="background-color: <%out.print(catcolor.get(i)); %>;"><%out.print(catlist.get(i)); %>
+	                             chip-default " data-tagname="<%out.print(catlist.get(i)); %>" 
+	                             style="background-color: <%out.print(catcolor.get(i)); %>;"><%out.print(catlist.get(i)); %>
 	                        <span class="tag-length"><%out.print(catcount.get(i)); %></span>
 	                            </span>
 	                        </a>
@@ -268,57 +271,59 @@ catch (Exception e){
             </div>
         </div>
 
+
         <style type="text/css">
-            #category-radar {
+            #tag-wordcloud {
                 width: 100%;
-                height: 360px;
-            }
-            
-            #category-radar img {
-                margin: 0 auto;
-                text-align: center;
+                height: 300px;
             }
         </style>
 
-        <div class="container">
-            <div class="card">
-                <div class="myaos"  style="margin-left: 28%;">
-					<canvas id="curve" width="500" height="300">
-					<script>
-						var thislabels = [];
-						<%for(int i=0;i<catlist.size();i++){%>
-							thislabels.push("<%=catlist.get(i)%>");
-						<%}%>	
-						var thisvalues = [];
-						<%for(int i=0;i<catcount.size();i++){%>
-							thisvalues.push(<%=catcount.get(i)%>);
-						<%}%>	
-						var len = <%=catNum%>;
-						window.onload = function() {
-							var bg = document.getElementById("curve");
-							linedata = {
-								labels: thislabels,//标签
-								datas: thisvalues,//数据
-								xTitle: "分类",//x轴标题
-								yTitle: "文章数量",//y轴标题
-								ctxSets:{
-									strokeColor:"#C0C0C0",//背景线颜色
-									lineWidth:1,//线的宽度
-									txtColor:"#000000",//绘制文本颜色
-									txtFont:"12px microsoft yahei",//字体
-									txtAlign:"center",//对齐方式
-									txtBase:"middle",//基线
-									lineColor:"blue",//折线颜色
-									circleColor:"#FF0000"//折线上圆点颜色	
-								}
-							};
-							setBg(bg,linedata);//绘制图标背景及折线
-						}
-					</script>
-					</canvas>
-                </div>
+           		<article id="articles" class="container articles">
+			<div class="row article-row">
+				<!-- 单个文章 -->
+				<%for(int i=0;i<articles.size();i++){%>
+					<div class="article col s12 m6 l4 myaos">
+						<div class="card">
+							<a href="blog.jsp?blogID=<%out.print(articles.get(i).get("blogID")); %>">
+								<div class="card-image">
+									<img
+										src=<%out.print(articles.get(i).get("backgroundImg")); %>
+										class="responsive-img"
+										alt=<%out.print(articles.get(i).get("title")); %> />
+									<span class="card-title"><%out.print(articles.get(i).get("title")); %></span>
+								</div>
+							</a>
+							<div class="card-content article-content">
+								<div class="summary block-with-text">
+									<%out.print(articles.get(i).get("content")); %>
+								</div>
+								<div class="publish-info">
+									<span class="publish-date"> <i
+										class="far fa-clock fa-fw icon-date"></i> 
+										<%out.print(articles.get(i).get("releaseTime")); %>
+									</span> <span class="publish-author"> <i
+										class="fas fa-bookmark fa-fw icon-category"></i> <a
+										href="categories.jsp" class="post-category">
+										<%out.print(articles.get(i).get("catName")); %>
+									</a>
+									</span>
+								</div>
+							</div>
+							<div class="card-action article-tags" style="position: relative;">
+								<a href="tags.jsp"> <span class="chip bg-color">
+								<%out.print(articles.get(i).get("catName")); %>
+											</span>
+								</a> <img src="./medias/trash.png" 
+									onclick=delBlog(<%out.print(articles.get(i).get("blogID")); %>)
+									style="position: absolute; right: 10px; width: 20px; height: 20px; cursor: pointer;">
+							</div>
+						</div>
+					</div>
+				<%}%>	
+				<!-- 单个文章 -->            
             </div>
-        </div>
+		</article>
 
     </main>
 
