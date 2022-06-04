@@ -10,7 +10,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% session.putValue("userName","tourist");
+	<% 
+	session.putValue("userID","5");
+	session.putValue("userName","tourist");
+	session.putValue("page",1);
     response.sendRedirect("home.jsp");%>
 </body>
 </html>
