@@ -24,18 +24,6 @@
         rs_1.close();
         out.write(userID + "<br>");
 
-        // msgID
-        String sql_2 = "select count(*) from webcomment";
-        ResultSet rs_2 = stmt.executeQuery(sql_2);
-        int msgID = 0;
-        while(rs_2.next()) {
-    		msgID = rs_2.getInt("count(*)");
-    	}
-        msgID = msgID + 1;
-        String msg_str = String.valueOf(msgID);
-        rs_2.close();
-        out.write(msg_str + "<br>");
-
         // content
         String comment = request.getParameter("comment");
         out.write(comment + "<br>");
@@ -45,7 +33,7 @@
         out.write(ip + "<br>");
         
         // update
-        String sql_3 = "insert into webcomment(msgID, userID, userPlace, content) values(" + msg_str + ", " + userID + ", '" 
+        String sql_3 = "insert into webcomment(userID, userPlace, content) values(" + userID + ", '" 
                         + ip + "', '" + comment + "');";
         out.write(sql_3 + "<br>");
         int count = stmt.executeUpdate(sql_3);
