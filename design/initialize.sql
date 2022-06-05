@@ -72,8 +72,8 @@ create table likes (
 	blogID int not null,
 	likeOrNot BOOLEAN DEFAULT FALSE,
     primary key (likeID),
-	foreign key(userID) references User(userID),
-	foreign key(blogID) references Blog(blogID)
+	foreign key(userID) references User(userID) ON DELETE CASCADE,
+	foreign key(blogID) references Blog(blogID) ON DELETE CASCADE
 ) character set = utf8;
 
 ALTER TABLE likes ADD CONSTRAINT onelike UNIQUE(userID, blogID);
