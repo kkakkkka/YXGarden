@@ -61,24 +61,14 @@
 | content   | text     |      |             | 留言内容     |
 | time      | datetime |      |             | 留言日期     |
 
-### 相册表 album
-
-每个用户一个相册
-
-| 名       | 类型 | 长度 | 键          | 注释     |
-| -------- | ---- | ---- | ----------- | -------- |
-| albumID  | int  | 20   | primary key | 相册ID   |
-| userID   | int  | 20   | foreign key | 用户ID   |
-| picCount | int  | 20   |             | 相片数量 |
-
 ### 相片表 pic
 
 不同用户的重复的图片就存多几张，不考虑性能
 
-| 名         | 类型     | 长度 | 键          | 注释     |
-| ---------- | -------- | ---- | ----------- | -------- |
-| picID      | int      | 20   | primary key | 相片ID   |
-| albumID    | int      | 20   | foreign key | 相册ID   |
-| name       | varchar  | 20   |             | 相片名称 |
-| content    | varchar  | 255  |             | 相片URL  |
-| uploadTime | datetime |      |             | 上传时间 |
+| 名         | 类型     | 长度 | 键          | 注释       |
+| ---------- | -------- | ---- | ----------- | ---------- |
+| picID      | int      | 20   | primary key | 相片ID     |
+| userID     | int      | 20   | foreign key | 所属用户ID |
+| name       | varchar  | 20   |             | 相片名称   |
+| content    | varchar  | 255  |             | 相片URL    |
+| uploadTime | datetime |      |             | 上传时间   |

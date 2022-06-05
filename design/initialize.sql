@@ -46,22 +46,14 @@ create table Blog (
 	foreign key(tagID) references Tag(tagID)
 ) character set = utf8;
 
-create table Album (
-	albumID int not null AUTO_INCREMENT,
-    userID int not null,
-	picCount int DEFAULT 0,
-    primary key (albumID),
-	foreign key(userID) references User(userID)
-) character set = utf8;
-
 create table Pic (
 	picID int not null AUTO_INCREMENT,
-	albumID int not null,
+	userID int not null,
     name varchar(20) not null,
 	content varchar(255) not null,
     uploadTime timestamp not null default current_timestamp,
     primary key (picID),
-	foreign key(albumID) references Album(albumID)
+	foreign key(userID) references User(userID)
 ) character set = utf8;
 
 create table WebComment (
