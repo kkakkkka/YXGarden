@@ -370,8 +370,11 @@ conn.close();
 									<span class="reprint-meta" style="font-weight: bold;"> <i
 										class="fas fa-user"> 文章作者: </i>
 									</span> <span class="reprint-info"> <a 
-										rel="external nofollow noreferrer"><c:out
+										rel="external nofollow noreferrer">
+                                        <font size='4px' color = green>
+                                        <c:out
 												value="${article.get('userName')}"></c:out></a>
+                                        </font>
 									</span>
 								</div>
 								<div class="reprint__type">
@@ -383,8 +386,12 @@ conn.close();
 									</span> <span class="reprint-info"> 本博客所有文章除特別声明外，均采用 <a
 										href="https://creativecommons.org/licenses/by/4.0/deed.zh"
 										rel="external nofollow noreferrer" target="_blank">CC BY
-											4.0</a> 许可协议。转载请注明来源 <a target="_blank"><c:out
-												value="${article.get('userName')}"></c:out></a> !
+											4.0</a> 许可协议。转载请注明来源 <a target="_blank">
+                                            <font size='4px' color = green>
+                                            <c:out
+												value="${article.get('userName')}"></c:out></a> 
+                                            </font>
+                                            !
 									</span>
 								</div>
 
