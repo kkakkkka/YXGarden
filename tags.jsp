@@ -321,24 +321,19 @@ try {
 		<div class="container">
 			<div class="card">
 				<div class="myaos" style="margin-left: 32%">
-					<canvas id="pie" width="500" height="230"
+					<canvas id="pie" width="500" height="250"
 						style="margin-top: 1%; margin-left: 2%">
 						<script>
 							// labels->taglist, values->tagcount
 							var thislabels = [];
 							<%for (int i = 0; i < taglist.size(); i++) {%>
-								thislabels.push("<%=taglist.get(i)%>
-							");
-						<%}%>
+								thislabels.push("<%=taglist.get(i)%>");
+							<%}%>
 							var thisvalues = [];
-						<%for (int i = 0; i < tagcount.size(); i++) {%>
-							thisvalues.push(
-						<%=tagcount.get(i)%>
-							);
-						<%}%>
-							var len =
-						<%=tagNum%>
-							;
+							<%for (int i = 0; i < tagcount.size(); i++) {%>
+								thisvalues.push(<%=tagcount.get(i)%>);
+							<%}%>
+							var len =<%=tagNum%>;
 							window.onload = function() {
 								//可以获取随机颜色
 								var thiscolors = [ "#00868B", "#8B658B",
