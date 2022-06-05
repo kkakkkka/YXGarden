@@ -36,8 +36,9 @@
     	
     	String sql_2 = "select userName,userAvatar,motto,homePage from user where userName <> '"+username+"';";
     	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
-    	for(int i=1;i<=3;i++) { //把游标(cursor)移至第一个或下一个记录
-    		rs_2.next();
+    	//for(int i=1;i<=3;i++) { //把游标(cursor)移至第一个或下一个记录
+    	while (rs_2.next()) {	
+    		//rs_2.next();
     		userNameList2.add(rs_2.getString("userName"));		
     		userAvatarList2.add(rs_2.getString("userAvatar"));
     		mottoList2.add(rs_2.getString("motto"));
@@ -202,70 +203,28 @@
                                 <div class="row tags-posts friend-all">
 
                                     <%if (username.equals("tourist")){%>
+                                    	<%for (int i=0; i<userAvatarList2.size(); ++i){%>
                                         <div class="col s12 m6 l4 friend-div">
                                             <div class="frind-card1 card myaos">
                                                 <div class="frind-ship">
                                                     <div class="title">
-                                                        <img src="<%out.print(userAvatarList2.get(0)); %>.jpg" alt="img">
+                                                        <img src="<%out.print(userAvatarList2.get(i)); %>.jpg" alt="img">
                                                         <div>
                                                             <h1 class="friend-name">
-                                                                <%out.print(userNameList2.get(0)); %>
+                                                                <%out.print(userNameList2.get(i)); %>
                                                             </h1>
                                                             <p style="position: relative;top: -35px;">
-                                                                <%out.print(mottoList2.get(0)); %>
+                                                                <%out.print(mottoList2.get(i)); %>
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="friend-button">
-                                                        <a href="<%out.print(homePageList2.get(0)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
+                                                        <a href="<%out.print(homePageList2.get(i)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                        <div class="col s12 m6 l4 friend-div">
-                                            <div class="frind-card1 card myaos">
-                                                <div class="frind-ship">
-                                                    <div class="title">
-                                                        <img src="<%out.print(userAvatarList2.get(1)); %>.jpg" alt="img">
-                                                        <div>
-                                                            <h1 class="friend-name">
-                                                                <%out.print(userNameList2.get(1)); %>
-                                                            </h1>
-                                                            <p style="position: relative;top: -35px;">
-                                                                <%out.print(mottoList2.get(1)); %>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="friend-button">
-                                                        <a href="<%out.print(homePageList2.get(1)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col s12 m6 l4 friend-div">
-                                            <div class="frind-card1 card myaos">
-                                                <div class="frind-ship">
-                                                    <div class="title">
-                                                        <img src="<%out.print(userAvatarList2.get(2)); %>.jpg" alt="img">
-                                                        <div>
-                                                            <h1 class="friend-name">
-                                                                <%out.print(userNameList2.get(2)); %>
-                                                            </h1>
-                                                            <p style="position: relative;top: -35px;">
-                                                                <%out.print(mottoList2.get(2)); %>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="friend-button">
-                                                        <a href="<%out.print(homePageList2.get(2)); %>" target="_blank" class="button button-glow button-rounded button-caution">访问主页</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+							 			<%}%>
                                         <%}%>
 
                                             <%if(username.equals("tourist")==false){%>
