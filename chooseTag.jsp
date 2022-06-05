@@ -82,7 +82,11 @@ try {
 	}
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
 	//用户标签数量
-	String sql_4 = "select count(distinct tagName) from tag where userID = "+ userID +";";
+	String sql_4;
+	if (username.equals("admin"))
+		sql_4 = "select count(distinct tagName) from tag;";
+	else
+		sql_4 = "select count(distinct tagName) from tag where userID = " + userID + ";";
 	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
 	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
 		tagNum = rs_4.getInt("count(distinct tagName)");
@@ -95,7 +99,11 @@ try {
         tagcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
 	}
 	//文章标签内容
-	String sql_6 = "select distinct tagName from tag where userID = "+ userID +";";
+	String sql_6;
+	if (username.equals("admin"))
+		sql_6 = "select distinct tagName from tag;";
+	else
+		sql_6 = "select distinct tagName from tag where userID = " + userID + ";";
 	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
 	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
 		taglist.add(rs_6.getString("tagName"));
@@ -103,7 +111,10 @@ try {
 	// 每个标签的次数
 	String sql_2;
 	for (int i=0; i<taglist.size(); i++) {
-		sql_2 = "select count(*) from tag where userID = "+ userID + " and tagName = '"+ taglist.get(i) + "';";
+		if (username.equals("admin"))
+	sql_2 = "select count(*) from tag where tagName = '" + taglist.get(i) + "';";
+		else
+	sql_2 = "select count(*) from tag where userID = " + userID + " and tagName = '" + taglist.get(i) + "';";
 		ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
 		while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
 			tagcount.add(rs_2.getInt("count(*)"));
@@ -112,7 +123,10 @@ try {
 	}
 	
 	// 当前标签下的文章信息
-	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and tagName = '%s')", userID, tagName);
+	if (username.equals("admin"))
+		sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where tagName = '%s')", tagName);
+	else
+		sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and tagName = '%s')", userID, tagName);
 	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
 	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
 		Map<String, String> map = new HashMap<>();

@@ -77,7 +77,11 @@ try {
 	}
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
 	//用户分类数量
-	String sql_4 = "select count(distinct catName) from cat where userID = "+ userID +";";
+	String sql_4;
+	if (username.equals("admin"))
+		sql_4 = "select count(distinct catName) from cat;";
+	else
+		sql_4 = "select count(distinct catName) from cat where userID = " + userID + ";";
 	ResultSet rs_4 = stmt.executeQuery(sql_4);//执行查询，返回结果集
 	while(rs_4.next()) { //把游标(cursor)移至第一个或下一个记录
 		catNum = rs_4.getInt("count(distinct catName)");
@@ -90,7 +94,11 @@ try {
         catcolor.add(String.format("rgb(%d, %d, %d)", r, g, b));
 	}
 	//文章类别内容
-	String sql_6 = "select distinct catName from cat where userID = "+ userID +";";
+	String sql_6;
+	if (username.equals("admin"))
+		sql_6 = "select distinct catName from cat;";
+	else
+		sql_6 = "select distinct catName from cat where userID = " + userID + ";";
 	ResultSet rs_6 = stmt.executeQuery(sql_6);//执行查询，返回结果集
 	while(rs_6.next()) { //把游标(cursor)移至第一个或下一个记录
 		catlist.add(rs_6.getString("catName"));
@@ -98,7 +106,10 @@ try {
 	// 每个标签的次数
 	String sql_2;
 	for (int i=0; i<catlist.size(); i++) {
-		sql_2 = "select count(*) from cat where userID = "+ userID + " and catName = '"+ catlist.get(i) + "';";
+		if (username.equals("admin"))
+	sql_2 = "select count(*) from cat where catName = '" + catlist.get(i) + "';";
+		else
+	sql_2 = "select count(*) from cat where userID = " + userID + " and catName = '" + catlist.get(i) + "';";
 		ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
 		while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
 			catcount.add(rs_2.getInt("count(*)"));
@@ -107,6 +118,9 @@ try {
 	}
 	
 	// 当前标签下的文章信息
+	if (username.equals("admin"))
+		sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where catName = '%s')", catName);
+	else
 	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and catName = '%s')", userID, catName);
 	ResultSet rs_2 = stmt.executeQuery(sql_2);//执行查询，返回结果集
 	while(rs_2.next()) { //把游标(cursor)移至第一个或下一个记录
