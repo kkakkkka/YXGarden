@@ -17,15 +17,17 @@
 <body>
     <div class="login-table">
         <div class="tit" style="margin-bottom: 22px">修改用户信息</div>
+        <form class="login-table" style="box-shadow:none" action="makechange.jsp" method="post" onsubmit="return ifsame()" enctype="multipart/form-data">
         <input id="password" name="password" required="required" type="password" placeholder="新密码(不少于3位)">
-        <input id="re-password" name="password" required="required" type="password" placeholder="请重复输入新密码">
+        <input id="re-password" name="re-password" required="required" type="password" placeholder="请重复输入新密码">
         <input id="motto" name="motto" type="text" placeholder="个性签名(选填)" />
         <input id="homepage" name="homepage" type="text" placeholder="个人主页URL(选填)" />
         <br>
         <a href="javascript:;" class="a-upload" style="color: gray;">
-            <input type="file" name="uploadfile">点击这里上传文件
+            <input type="file" name="avatar" accept="image/*">点击这里上传头像
         </a>
-        <button type="submit" id="submitbutton" onclick="ifsame()" >提交</button>
+        <button type="submit" id="submitbutton">提交</button>
+        </form>
     </div>
     <div class="square">
         <ul>
@@ -79,18 +81,9 @@
             } else if (rePassword == "") { // 检查用户是否重复输入新密码
                 alert("请重复输入新密码！");
             } else { // 没问题了，执行相关操作
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.onreadystatechange = function () {
-				  if (xmlhttp.readyState == 4) {
-				    alert(xmlhttp.responseText);
-				    if (xmlhttp.status == 200) {
-				      location.reload();
-				    }
-				  }
-				};
-				xmlhttp.open("get", "makechange.jsp?newpasswd=" + password + "&motto=" + motto + "&homepage=" + homepage, true);
-				xmlhttp.send(null);
+				return true;
             }
+            return false;
         }
     </script>
 </body>

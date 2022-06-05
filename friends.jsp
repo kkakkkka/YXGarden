@@ -208,7 +208,7 @@
                                             <div class="frind-card1 card myaos">
                                                 <div class="frind-ship">
                                                     <div class="title">
-                                                        <img src="<%out.print(userAvatarList2.get(i)); %>.jpg" alt="img">
+                                                        <img src="<%out.print(userAvatarList2.get(i));%>" alt="img">
                                                         <div>
                                                             <h1 class="friend-name">
                                                                 <%out.print(userNameList2.get(i)); %>
@@ -232,7 +232,7 @@
                                                     <div class="frind-card1 card myaos">
                                                         <div class="frind-ship">
                                                             <div class="title">
-                                                                <img src="<%out.print(userAvatarList.get(0)); %>.jpg" alt="img">
+                                                                <img src="<%out.print(userAvatarList.get(0)); %>" alt="img">
                                                                 <div>
                                                                     <h1 class="friend-name">
                                                                         <%out.print(userNameList.get(0)); %>
