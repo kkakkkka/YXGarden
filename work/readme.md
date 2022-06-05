@@ -2,9 +2,9 @@
 
 ### 设计
 
-删除album表，将pic表的albumID换为userID
+~~删除album表，将pic表的albumID换为userID~~
 
-like表，用户判断，点赞/取消点赞。
+~~like表，用户判断，点赞/取消点赞。~~
 
 ### 实现
 
