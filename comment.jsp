@@ -6,6 +6,7 @@
     String userAvatar = null; // 用户头像
     String userID = null; // 用户id
     String motto = null; // 用户格言
+    int speechStatus = 1; // 是否可以发言
     ArrayList <String> msgidList = new ArrayList<String>(); // 评论号
     ArrayList <String> userList = new ArrayList<String>(); // 用户名
     ArrayList <String> userIDList = new ArrayList<String>(); // 用户ID
@@ -26,6 +27,7 @@
     		userAvatar = rs_0.getString("userAvatar");
     		motto = rs_0.getString("motto");
     		userID = rs_0.getString("userID");
+            speechStatus = rs_0.getInt("speechStatus");
     	}
         rs_0.close();
         
@@ -207,12 +209,21 @@
                                 </div>
                                 <div class="comment-container">
                                     <div class="comment-send">
-                                        <form id="commentForm" action="comment_insert.jsp" method="post">
+                                        <%
+                                        String can = "发表留言";
+                                        if (speechStatus == 0) {
+                                            out.write("<form id='commentForm' onsubmit='return false' method='post'>");
+                                            can = "当前账号\n不可留言";
+                                        }
+                                        else
+                                            out.write("<form id='commentForm' action='comment_insert.jsp' method='post'>");
+                                        %>
+                                        <%-- <form id="commentForm" action="comment_insert.jsp" method="post"> --%>
                                             <span class="comment-avatar">
-                                <img src="<%=userAvatar%>.jpg" alt="avatar">
-                            </span>
+                                                <img src="<%=userAvatar%>" alt="avatar">
+                                            </span>
                                             <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                                            <input class="comment-send-button" type="submit" value="发表留言">
+                                            <input class="comment-send-button" type="submit" value="<%=can%>">
                                         </form>
                                     </div>
                                     <%
@@ -221,7 +232,7 @@
                                         <div class="comment-list" id="commentList">
                                             <div class="comment">
                                                 <span class="comment-avatar">
-                                <img src="<%=avatarList.get(i)%>.jpg" alt="avatar">
+                                <img src="<%=avatarList.get(i)%>" alt="avatar">
                             </span>
                                                 <div class="comment-content">
                                                     <p class="comment-content-name">
