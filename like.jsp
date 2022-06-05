@@ -32,7 +32,7 @@ try {
 		SQL = String.format("update likes set likeornot = 1 where userid=%s and blogID=%s;", userid, blogid);
 		stmt = conn.createStatement();
 		stmt.executeUpdate(SQL);
-		out.println("您已经点赞过啦！");
+		out.println("您已经点赞过这个博客了！");
 	}
 	response.setStatus(200);
 	stmt.close();
