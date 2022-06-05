@@ -23,8 +23,8 @@
         <input id="motto" name="motto" type="text" placeholder="个性签名(选填)" />
         <input id="homepage" name="homepage" type="text" placeholder="个人主页URL(选填)" />
         <br>
-        <a href="javascript:;" class="a-upload" style="color: gray;">
-            <input type="file" name="avatar" accept="image/*">点击这里上传头像
+        <a href="javascript:;" class="a-upload" style="color: gray;" id="ava_a">
+            <input type="file" name="avatar" accept="image/*" id="avafile">点击这里上传头像
         </a>
         <button type="submit" id="submitbutton">提交</button>
         </form>
@@ -48,6 +48,15 @@
         </ul>
     </div>
     <script type="text/javascript">
+    	window.setInterval(function(){
+    		var img = document.getElementById('avafile');
+			if(img.files){
+				if(img.files[0]){
+					var txtnode = document.getElementById('ava_a').lastChild;
+        			txtnode.nodeValue = img.files[0].name;
+				}
+			}
+    	}, 100);
         function ifsame() {
             var motto = document.getElementById("motto").value;
             var rePassword = document.getElementById("re-password").value;
