@@ -360,9 +360,9 @@ conn.close();
 									<a href="#Abstract" class="headerlink" title="Abstract"></a>
 									<c:out value="${article.get('title')}"></c:out>
 								</h2>
-								<p style="text-align: left;">
+								<div style="text-align: left;">
 									<%=content %>
-								</p>
+								</div>
 							</div>
 							<hr />
 							<div class="reprint" id="reprint-statement">
