@@ -7,6 +7,7 @@
     String userID = null; // 用户id
     String motto = null; // 用户格言
     int speechStatus = 1; // 是否可以发言
+    int isRoot = 1; // 管理员删除
     ArrayList <String> msgidList = new ArrayList<String>(); // 评论号
     ArrayList <String> userList = new ArrayList<String>(); // 用户名
     ArrayList <String> userIDList = new ArrayList<String>(); // 用户ID
@@ -28,6 +29,7 @@
     		motto = rs_0.getString("motto");
     		userID = rs_0.getString("userID");
             speechStatus = rs_0.getInt("speechStatus");
+            isRoot = rs_0.getInt("isRoot");
     	}
         rs_0.close();
         
@@ -69,7 +71,7 @@
 
             <head>
                 <meta charset="utf-8">
-                <title>Comment | UserName</title>
+                <title>Comment | <%=username%></title>
                 <link rel="icon" type="image/png" href="./favicon.ico">
                 <link rel="stylesheet" type="text/css" href="./css/awesome/css/all.min.css">
                 <link rel="stylesheet" type="text/css" href="./css/materialize/materialize.min.css">
@@ -202,7 +204,7 @@
                 <main class="content" style="min-height: 584px;">
                     <script src="./js/comments.js"></script>
                     <div id="contact" class="container chip-container">
-                        <div class="card">
+                        <div class="card" style="min-width:200px">
                             <div class="card-content">
                                 <div class="tag-title center-align">
                                     <i class="fas fa-comments"></i>&nbsp;&nbsp;留言板
@@ -222,14 +224,14 @@
                                             <span class="comment-avatar">
                                                 <img src="<%=userAvatar%>" alt="avatar">
                                             </span>
-                                            <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                                            <textarea class="comment-send-input" name="comment" form="commentForm" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。" ></textarea>
                                             <input class="comment-send-button" type="submit" value="<%=can%>">
                                         </form>
                                     </div>
                                     <%
                     for (int i = 0; i < msgidList.size(); i++) {
                     %>
-                                        <div class="comment-list" id="commentList">
+                                        <div class="comment-list">
                                             <div class="comment">
                                                 <span class="comment-avatar">
                                 <img src="<%=avatarList.get(i)%>" alt="avatar">
@@ -245,6 +247,13 @@
                                                         <span class="comment-content-footer-id">#<%=msgidList.get(i)%></span>
                                                         <span class="comment-content-footer-device"><%=palceList.get(i)%></span>
                                                         <span class="comment-content-footer-timestamp"><%=timeList.get(i)%></span>
+                                                        <%
+                                                        if (isRoot == 1 || userList.get(i).equals(username)) {
+                                                            out.write("<span class='comment-content-footer-timestamp'>");
+                                                            out.write("<a href='comment_delete.jsp?number=" + msgidList.get(i) + "'>删除</a>");
+                                                            out.write("</span>");
+                                                        }
+                                                        %>
                                                     </p>
                                                 </div>
                                                 <div class="comment-cls"></div>
