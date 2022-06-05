@@ -260,7 +260,7 @@
                                             <div class="avatar">
                                                 <img src="<%
                                     out.print(userAvatar);
-                                    %>.jpg" alt="<%out.print(username); %>" class="circle responsive-img avatar-img">
+                                    %>" alt="<%out.print(username); %>" class="circle responsive-img avatar-img">
                                             </div>
                                             <div class="author">
                                                 <div class="post-statis hide-on-large-only">
@@ -355,8 +355,8 @@
                                         <%for(int i=0;i<=piclist.size()-1&i<=2;i++){ %>
                                             <div class="photo col s12 m6 l4 myaos">
 
-                                                <div class="img-item" data-src="<%out.print(piclist.get(i));%>.jpg">
-                                                    <img src="<%out.print(piclist.get(i));%>.jpg" class="responsive-img">
+                                                <div class="img-item" data-src="<%out.print(piclist.get(i));%>">
+                                                    <img src="<%out.print(piclist.get(i));%>" class="responsive-img">
                                                 </div>
 
                                             </div>
