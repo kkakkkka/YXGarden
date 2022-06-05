@@ -17,7 +17,7 @@
 <body>
     <div class="login-table">
         <div class="tit" style="margin-bottom: 22px">修改用户信息</div>
-        <form class="login-table" style="box-shadow:none" action="makechange.jsp" method="post" onsubmit="return ifsame()" enctype="multipart/form-data">
+        <form class="login-table" style="box-shadow:none" action="makechange.jsp" method="post" onsubmit="return ifsame_()" enctype="multipart/form-data">
         <input id="password" name="password" required="required" type="password" placeholder="新密码(不少于3位)">
         <input id="re-password" name="re-password" required="required" type="password" placeholder="请重复输入新密码">
         <input id="motto" name="motto" type="text" placeholder="个性签名(选填)" />
@@ -57,7 +57,7 @@
 				}
 			}
     	}, 100);
-        function ifsame() {
+        function ifsame_() {
             var motto = document.getElementById("motto").value;
             var rePassword = document.getElementById("re-password").value;
             var password = document.getElementById("password").value;
@@ -73,6 +73,8 @@
             // 防止SQL注入
             motto = motto.replaceAll(".*([';]+|(--)+).*", " ");
             homepage = homepage.replaceAll(".*([';]+|(--)+).*", " ");
+            
+            document.getElementById("homepage").value = homepage;
             
             var zg = new RegExp(/^((?![0-9]+$)|(?![a-zA-Z]+$))[0-9A-Za-z]*$/);
             if (!zg.test(password)) { // 检查密码组成
