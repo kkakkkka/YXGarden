@@ -214,7 +214,7 @@
                                                                 <%out.print(userNameList2.get(i)); %>
                                                             </h1>
                                                             <p style="position: relative;top: -35px;">
-                                                                <%out.print(mottoList2.get(i)); %>
+                                                                <%out.print(mottoList2.get(i).substring(0, Math.min(10, mottoList2.get(i).length()))+(mottoList2.get(i).length()>10?"...":"")); %>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -238,7 +238,7 @@
                                                                         <%out.print(userNameList.get(0)); %>
                                                                     </h1>
                                                                     <p style="position: relative;top: -35px;">
-                                                                        <%out.print(mottoList.get(0)); %>
+                                                                        <%out.print(mottoList.get(0).substring(0, Math.min(10, mottoList.get(0).length()))+(mottoList.get(0).length()>10?"...":"")); %>
                                                                     </p>
                                                                 </div>
                                                             </div>
