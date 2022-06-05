@@ -26,7 +26,6 @@
 	<link rel="stylesheet" type="text/css" href="./css/my.css">
 	<link rel="stylesheet" type="text/css" href="./css/blog.css">
 	<link rel="stylesheet" type="text/css" href="./css/myaos.css">
-	<link rel="stylesheet" type="text/css" href="./css/button.css">
 	<!--  <link rel="stylesheet" href="./css/57.css"> -->
 	<script src="./js/myaos.js"></script>
 	<link href="./css/layui.css" rel="stylesheet" />
@@ -221,6 +220,21 @@
 	function code() {
 		var richedit = document.getElementById("richedit");
 		alert(richedit.innerHTML);
+	}
+	function delete_line() {
+		document.execCommand("StrikeThrough", false, "");
+	}
+	function Underline() {
+		document.execCommand("Underline", false, "");
+	}
+	function JustifyLeft() {//居左
+		document.execCommand("JustifyLeft", false, "");
+	}
+	function JustifyRight() {//居右
+		document.execCommand("JustifyRight", false, "");
+	}
+	function JustifyCenter() {//居中
+		document.execCommand("JustifyCenter", false, "");
 	}
 </script>
 
@@ -456,14 +470,27 @@ if (request.getMethod().equalsIgnoreCase("post")){
 							</div> -->
 							<div class="layui-layedit">
 						        <div class="layui-unselect layui-layedit-tool">
-						            <i class="layui-icon layedit-tool-face" title="表情" layedit-event="face" "="">
-						            </i>
+						            <i class="layui-icon layedit-tool-face" title="表情" layedit-event="face" "="" onclick="return undo();"></i>
 						            <span class=" layedit-tool-mid"></span>
-						                <i class="layui-icon layedit-tool-left" title="左对齐" lay-command="justifyLeft" layedit-event="left" "="" onclick="return italic();"></i>
-						                <i class=" layui-icon layedit-tool-center" title="居中对齐" lay-command="justifyCenter" layedit-event="center" "="" onclick="return undo();">
-						                </i><i class=" layui-icon layedit-tool-right" title="右对齐" lay-command="justifyRight" layedit-event="right" "="" onclick="return color();" >
-						                    </i><span class=" layedit-tool-mid"></span>
-						                    <i class="layui-icon layedit-tool-link" title="插入链接" layedit-event="link" "=""></i>
+						                <i class=" layui-icon layedit-tool-i" title="斜体" lay-command="italic" layedit-event="i"" onclick="return italic();">&#xe644;</i>
+						            
+						                    <i class=" layui-icon layedit-tool-b" title="加粗" lay-command="Bold" layedit-event="b"" onclick="return fontSize();">&#xe62b;</i>
+						            
+						                        <i class=" layui-icon layedit-tool-u" title="下划线" lay-command="underline" layedit-event="u"" onclick="return Underline();">&#xe646;</i>
+						            
+						                            <i class=" layui-icon layedit-tool-d" title="删除线" lay-command="strikeThrough"
+						                                layedit-event="d"" onclick="return delete_line()">&#xe64f;</i>
+						             <span class=" layedit-tool-mid"></span>
+						                        <i class="layui-icon layedit-tool-left" title="左对齐" lay-command="justifyLeft"
+                                    layedit-event="left" "="" onclick="return JustifyLeft()"></i>
+                    <i class=" layui-icon layedit-tool-center" title="居中对齐" lay-command="justifyCenter"
+                                    layedit-event="center" "="" onclick="return JustifyCenter()"></i>
+                    <i class=" layui-icon layedit-tool-right" title="右对齐" lay-command="justifyRight"
+                                    layedit-event="right" "="" onclick="return JustifyRight()"></i>
+						                                
+						                                
+						            <span class=" layedit-tool-mid"></span>
+						                    <i class="layui-icon layedit-tool-link" title="插入链接" layedit-event="link" "="" onclick="return code();"></i>
 						                    </div>
 						                    <textarea id="mytextarea" style="display:none" name="Body"></textarea>
 						                    <div class=" layui-layedit-iframe" contenteditable="true" id="richedit" style="overflow:auto;padding:10px;width:100%;height:200px;">
