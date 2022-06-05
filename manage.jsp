@@ -23,14 +23,42 @@ div.muteornot input {
 	margin-left: 5px;
 	margin-right: 5px;
 	margin-top: 25px;
-	margin-bottom: 0;
+	margin-bottom: 20px;
 }
 </style>
+<%
+Connection conn = null;
+try {
+	Class.forName("com.mysql.jdbc.Driver");
+	String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
+	conn = DriverManager.getConnection(connectionUrl, "user", "123");
+} catch (Exception e) {
+	out.write("<script>alert('连接数据库出错！');</script>");
+	return;
+}
+String SQL = "select userName from user;";
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery(SQL);
+List<String> userlist = new ArrayList<>();
+while (rs.next()) {
+	userlist.add(rs.getString("userName"));
+}
+rs.close();
+stmt.close();
+conn.close();
+%>
 <body>
     <div class="login-table" style="height:350px;">
         <div class="tit" style="margin-bottom: 50px">设置用户发言状态</div>
-        <input id="username" name="username" required="required" type="text" placeholder="用户名">
-       	<div>
+		<p style="margin-bottom: 10px">
+			<label for="username">用户名：</label> 
+			<select name="username" id="username">
+			<%for (int i=0; i<userlist.size(); i++) { %>
+				<option value="<%out.print(userlist.get(i)); %>"><%out.print(userlist.get(i)); %></option>	
+			<%} %>
+			</select>
+		</p>
+		<div>
 			<div class="muteornot" style="padding: 0; margin: 0; border: 0;">
 				<input type="radio" name="muteornot" value="0" class="muteornot" id="muteornot"><span>设置禁言</span>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -60,7 +88,9 @@ div.muteornot input {
     </div>
     <script type="text/javascript">
         function ifsame() {
-            var username = document.getElementById("username").value;
+            var usernamebox = document.getElementById("username");
+            var index = usernamebox.selectedIndex;
+            var username = usernamebox.options[index].value;
             var muteornot = document.getElementsByName("muteornot");
             var prefix = null;
             for(i=0;i<muteornot.length;i++){
