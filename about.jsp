@@ -8,7 +8,6 @@
     String userID = null;
     String motto = null;
     String table = "";
-    String albumID = "";
     int articleNum = 0;
     int catNum = 0;
     int tagNum = 0;
@@ -65,13 +64,7 @@
     		taglist.add(rs_6.getString("tagName"));
     	}
     	
-    	String sql_7 = "select albumID from album where userID = "+ userID +";";
-    	ResultSet rs_7=stmt.executeQuery(sql_7);//执行查询，返回结果集
-    	while(rs_7.next()) { //把游标(cursor)移至第一个或下一个记录
-    		albumID = rs_7.getString("albumID");
-    	}
-    	
-    	String sql_8 = "select content from pic where albumID = "+ albumID +";";
+    	String sql_8 = "select content from pic where userID = "+ userID +";";
     	ResultSet rs_8=stmt.executeQuery(sql_8);//执行查询，返回结果集
     	while(rs_8.next()) { //把游标(cursor)移至第一个或下一个记录
     		piclist.add(rs_8.getString("content"));
@@ -83,7 +76,6 @@
     	rs_4.close();
     	rs_5.close(); 
     	rs_6.close();
-    	rs_7.close(); 
     	rs_8.close();
     	
     	stmt.close(); con.close();
