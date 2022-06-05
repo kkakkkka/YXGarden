@@ -292,7 +292,7 @@
 
             <script>
                 if (window.name != "bencalie") {
-                    location.reload();
+                    window.location.href = window.location.href;
                     window.name = "bencalie";
                 } else {
                     window.name = "";

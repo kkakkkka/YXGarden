@@ -105,7 +105,7 @@
 
             <head>
                 <meta charset="utf-8">
-                <title>Archives | UserName</title>
+                <title>Archives | <%=username%></title>
                 <link rel="icon" type="image/png" href="./favicon.ico">
                 <link rel="stylesheet" type="text/css" href="./css/awesome/css/all.min.css">
                 <link rel="stylesheet" type="text/css" href="./css/materialize/materialize.min.css">
@@ -411,7 +411,7 @@
 
             <script>
                 if (window.name != "bencalie") {
-                    location.reload();
+                    window.location.href = window.location.href;
                     window.name = "bencalie";
                 } else {
                     window.name = "";
