@@ -76,4 +76,6 @@ create table likes (
 	foreign key(blogID) references Blog(blogID)
 ) character set = utf8;
 
+ALTER TABLE likes ADD CONSTRAINT onelike UNIQUE(userID, blogID);
+
 
