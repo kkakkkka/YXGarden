@@ -240,21 +240,41 @@
 
 <body>
 	<header class="navbar-fixed">
-	<%
-	Object obj = session.getAttribute("userName");
-	String uname;
-	if(obj==null){
-		response.sendRedirect("login.jsp");
-		return;
-	}
-	uname = obj.toString();
-	if(uname == "tourist"){
-		out.write("<script>alert('游客不能发博文，请先登录');window.location.href='home.jsp';</script>");
-		return;
-	}
-	pageContext.setAttribute("uname", uname);
-	%>
-		<link rel="stylesheet" type="text/css" href="./css/header.css?t=2">
+		<%
+		Object obj = session.getAttribute("userName");
+		String uname;
+		if (obj == null) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
+		uname = obj.toString();
+		if (uname == "tourist") {
+			out.write("<script>alert('游客不能发博文，请先登录');window.location.href='home.jsp';</script>");
+			return;
+		}
+		Connection connS = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
+			connS = DriverManager.getConnection(connectionUrl, "user", "123");
+			Statement stmtS = connS.createStatement();
+			ResultSet rsS = stmtS.executeQuery(String.format("select speechStatus from user where userName = \"%s\"",uname));
+			rsS.next();
+			int status = rsS.getInt("speechStatus");
+			rsS.close();
+			stmtS.close();
+			connS.close();
+			if(status == 0){
+				out.write("<script>alert('你已被禁言！');window.location.href='home.jsp';</script>");
+				return;
+			}
+		} catch (Exception e) {
+			out.write("<script>alert('数据库出错，打开页面失败');window.location.href='home.jsp';</script>");
+			return;
+		}
+		pageContext.setAttribute("uname", uname);
+		%>
+		<link rel="stylesheet" type="text/css" href="./css/header.css?t=1">
 		<script src="./js/header.js"></script>
 		<nav id="nav_header" class="bg-color nav-transparent">
 			<div id="navContainer" class="nav-wrapper container">
@@ -263,11 +283,24 @@
 						src="./medias/logo.png" class="logo-img" alt="LOGO">
 					</a>
 					<div id="login_to_change" style="display: inline;">
-						<span class="logo-span" style="position:relative;bottom:24px;left:5px">
-						<c:out value="${uname}"></c:out></span>
+						<span class="logo-span"
+							style="position: relative; bottom: 24px; left: 5px"> <c:out
+								value="${uname}"></c:out></span>
 						<div class="login">
 							<a href="login.jsp"><span>切换用户</span></a>
 						</div>
+						<div class="login">
+							<a href="changeinfo.jsp"><span>修改信息</span></a>
+						</div>
+						<%
+						if (uname.equals("admin")) {
+						%>
+						<div class="login">
+							<a href="manage.jsp"><span>后台管理</span></a>
+						</div>
+						<%
+						}
+						%>
 					</div>
 				</div>
 				<a href="#" data-target="mobile-nav"
@@ -322,17 +355,18 @@
 							<span id="subtitle"></span>
 							<script src="./js/myTyped.js"></script>
 							<script>
-								var typed = new Typed("#subtitle", {
-									strings: [
-										"从来没有真正的绝境, 只有心灵的迷途",
-										"Never really desperate, only the lost of the soul",
-									],
-									startDelay: 300,
-									typeSpeed: 100,
-									loop: true,
-									backSpeed: 50,
-									showCursor: true
-								});
+								var typed = new Typed(
+										"#subtitle",
+										{
+											strings : [
+													"从来没有真正的绝境, 只有心灵的迷途",
+													"Never really desperate, only the lost of the soul", ],
+											startDelay : 300,
+											typeSpeed : 100,
+											loop : true,
+											backSpeed : 50,
+											showCursor : true
+										});
 							</script>
 						</div>
 					</div>
@@ -340,68 +374,87 @@
 			</div>
 			<script>
 				// 每天切换 banner 图.  Switch banner image every day.
-				var bannerUrl = "./medias/banner/" + new Date().getDay() + '.jpg';
+				var bannerUrl = "./medias/banner/" + new Date().getDay()
+						+ '.jpg';
 				var pick = Math.floor(Math.random() * 7);
 				var bannerUrl = "./medias/banner/" + pick + '.jpg';
 				var csstext = document.getElementsByClassName("bg-cover")[0];
-				csstext.style.cssText += "background-image: url( " + bannerUrl + "  )";
+				csstext.style.cssText += "background-image: url( " + bannerUrl
+						+ "  )";
 			</script>
 		</div>
 	</div>
 
-<%
-request.setCharacterEncoding("utf-8");
-if (request.getMethod().equalsIgnoreCase("post")){
-	String cat=null,tag=null,title=null,body=null;
-	String uid = session.getAttribute("userID").toString();
-	String imgUrl = "medias/featureimages/" + (int)(Math.random()*24) + ".jpg";
-	FileItemFactory factory = new DiskFileItemFactory();
-	ServletFileUpload upload = new ServletFileUpload(factory);
-	List items = upload.parseRequest(request);
-	for (int i = 0; i < items.size(); i++) {
-		FileItem fi = (FileItem) items.get(i);
-		if (fi.isFormField()){
-			if(fi.getFieldName().equals("Cat")) cat = fi.getString("utf-8");
-			if(fi.getFieldName().equals("Tag")) tag = fi.getString("utf-8");
-			if(fi.getFieldName().equals("Title")) title = fi.getString("utf-8");
-			if(fi.getFieldName().equals("Body")){
-				body = fi.getString("utf-8");
-				body = body.replace("\\","\\\\");
-				body = body.replace("\"","\\\"");
+	<%
+	request.setCharacterEncoding("utf-8");
+	if (request.getMethod().equalsIgnoreCase("post")) {
+		String cat = null, tag = null, title = null, body = null;
+		String uid = session.getAttribute("userID").toString();
+		String imgUrl = null;
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		List items = upload.parseRequest(request);
+		for (int i = 0; i < items.size(); i++) {
+			FileItem fi = (FileItem) items.get(i);
+			if (fi.isFormField()) {
+		if (fi.getFieldName().equals("Cat"))
+			cat = fi.getString("utf-8");
+		if (fi.getFieldName().equals("Tag"))
+			tag = fi.getString("utf-8");
+		if (fi.getFieldName().equals("Title"))
+			title = fi.getString("utf-8");
+		if (fi.getFieldName().equals("Body")) {
+			body = fi.getString("utf-8");
+			body = body.replace("\\", "\\\\");
+			body = body.replace("\"", "\\\"");
+		}
+			} else {
+		DiskFileItem dfi = (DiskFileItem) fi;
+		String fileName = FilenameUtils.getName(dfi.getName());
+		fileName = fileName.replace(" ", "");
+		if (!fileName.trim().equals("")) {
+			String path = application.getRealPath("");
+			String sep = System.getProperty("file.separator");
+			String dirToSave = path + "medias" + sep + "userbk" + sep;
+			if (!(new File(dirToSave).isDirectory())) {//如果文件夹不存在
+				new File(dirToSave).mkdir();
 			}
-		}else{
-			DiskFileItem dfi = (DiskFileItem) fi;
-			if (!dfi.getName().trim().equals("")) {
-				//TODO
-// 				String fileName=application.getRealPath("/");
-// 				out.print(fileName);
-// 				dfi.write(new File(fileName));
+			String uniFileName = System.currentTimeMillis() + fileName;
+			dfi.write(new File(dirToSave + uniFileName));
+			imgUrl = "medias/userbk/" + uniFileName;
+		}
 			}
 		}
+		if (imgUrl == null)
+			imgUrl = "medias/featureimages/" + (int) (Math.random() * 24) + ".jpg";
+		Connection conn = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
+			conn = DriverManager.getConnection(connectionUrl, "user", "123");
+			conn.setAutoCommit(false);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String.format("insert into tag(userID,tagName) values(%s,\"%s\");", uid, tag));
+			stmt.executeUpdate(String.format("insert into cat(userID,catName) values(%s,\"%s\");", uid, cat));
+			stmt.executeQuery(
+			String.format("select max(tagID) from tag where userID=%s and tagName=\"%s\" into @tid;", uid, tag));
+			stmt.executeQuery(
+			String.format("select max(catID) from cat where userID=%s and catName=\"%s\" into @cid;", uid, cat));
+			stmt.executeUpdate(String.format(
+			"insert into blog(userID,catID,tagID,title,content,backgroundImg) values(%s,@cid,@tid,\"%s\",\"%s\",\"%s\");",
+			uid, title, body, imgUrl));
+			stmt.executeUpdate(String.format("insert into pic(userID,content) values(\"%s\",\"%s\");", uid, imgUrl));
+			conn.commit();
+			out.write("<script>alert('发布博文成功！');window.location.href='home.jsp';</script>");
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			if (conn != null)
+		conn.rollback();
+			out.write("<script>alert('提交失败！');</script>");
+		}
 	}
-	Connection conn = null;
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
-		String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
-		conn = DriverManager.getConnection(connectionUrl, "user", "123");
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement();
-		stmt.executeUpdate(String.format("insert into tag(userID,tagName) values(%s,\"%s\");",uid,tag));
-		stmt.executeUpdate(String.format("insert into cat(userID,catName) values(%s,\"%s\");",uid,cat));
-		stmt.executeQuery(String.format("select max(tagID) from tag where userID=%s and tagName=\"%s\" into @tid;",uid,tag));
-		stmt.executeQuery(String.format("select max(catID) from cat where userID=%s and catName=\"%s\" into @cid;",uid,cat));
-		stmt.executeUpdate(String.format("insert into blog(userID,catID,tagID,title,content,backgroundImg) values(%s,@cid,@tid,\"%s\",\"%s\",\"%s\");",
-		uid,title,body,imgUrl));
-		conn.commit();
-		out.write("<script>alert('发布博文成功！');window.location.href='home.jsp';</script>");
-		stmt.close();
-		conn.close();
-	} catch (Exception e) {
-		if(conn!=null) conn.rollback();
-		out.write("<script>alert('提交失败！');</script>");
-	}
-}
-%>
+	%>
 	<main class="content">
 		<div id="aboutme" class="container about-container">
 			<div class="card">
@@ -470,7 +523,7 @@ if (request.getMethod().equalsIgnoreCase("post")){
 							</div> -->
 							<div class="layui-layedit">
 						        <div class="layui-unselect layui-layedit-tool">
-						            <i class="layui-icon layedit-tool-face" title="表情" layedit-event="face" "="" onclick="return undo();"></i>
+						            <i class="layui-icon " title="表情" onclick="return undo();">&#xe603;</i>
 						            <span class=" layedit-tool-mid"></span>
 						                <i class=" layui-icon layedit-tool-i" title="斜体" lay-command="italic" layedit-event="i"" onclick="return italic();">&#xe644;</i>
 						            
@@ -498,11 +551,11 @@ if (request.getMethod().equalsIgnoreCase("post")){
 						        </div>
 						    </div>
 							<br>
-							<div class="name" style="padding-top: 5px; padding-bottom: 5px; padding-left: 9px;">上传图片(若不上传，则使用随机图片作为背景图)</div>
+							<div class="name" style="padding-top: 5px; padding-bottom: 5px; padding-left: 9px;">上传背景图(若不上传，则使用随机图片作为背景图)</div>
 							
 							<br>
 							<div class="a-upload" style="color: gray;">
-								<input type="file" name="fileToUpload" id="file" accept="image/*" ><div style="position:relative;left:2	px;top:-15px;">上传图片</div>
+								<input type="file" name="fileToUpload" id="file" accept="image/*"><div style="position:relative;left:2	px;top:-15px;pointer-events:none">上传图片</div>
 							</div>
 							
 							<br>
