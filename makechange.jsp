@@ -111,6 +111,8 @@ try {
 	if(newava!=null){
 		SQL = String.format("update user set userAvatar = '%s' where userID = %s;", newava, userID);
 		stmt.executeUpdate(SQL);
+		SQL = String.format("insert into pic(userID,content) values(\"%s\",\"%s\");", userID, newava);
+		stmt.executeUpdate(SQL);
 	}
 	String succMsg = "更新成功！\\n新的密码："+newpasswd+"\\n新的个性签名："+newmotto+"\\n新的个人主页URL："+newhp;
 	out.write(String.format("<script>alert('%s');window.location.href='home.jsp';</script>",succMsg));
