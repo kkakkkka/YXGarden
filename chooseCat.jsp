@@ -78,7 +78,7 @@ try {
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
 	//用户分类数量
 	String sql_4;
-	if (username.equals("admin"))
+	if (username.equals("admin") || username.equals("tourist"))
 		sql_4 = "select count(distinct catName) from cat;";
 	else
 		sql_4 = "select count(distinct catName) from cat where userID = " + userID + ";";
@@ -95,7 +95,7 @@ try {
 	}
 	//文章类别内容
 	String sql_6;
-	if (username.equals("admin"))
+	if (username.equals("admin") || username.equals("tourist"))
 		sql_6 = "select distinct catName from cat;";
 	else
 		sql_6 = "select distinct catName from cat where userID = " + userID + ";";
@@ -106,7 +106,7 @@ try {
 	// 每个标签的次数
 	String sql_2;
 	for (int i=0; i<catlist.size(); i++) {
-		if (username.equals("admin"))
+		if (username.equals("admin") || username.equals("tourist"))
 	sql_2 = "select count(*) from cat where catName = '" + catlist.get(i) + "';";
 		else
 	sql_2 = "select count(*) from cat where userID = " + userID + " and catName = '" + catlist.get(i) + "';";
@@ -118,7 +118,7 @@ try {
 	}
 	
 	// 当前标签下的文章信息
-	if (username.equals("admin"))
+	if (username.equals("admin") || username.equals("tourist"))
 		sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where catName = '%s')", catName);
 	else
 	sql_2 = String.format("select blogID,title,content,releaseTime,backgroundImg,catName,tagName from blog natural join user natural join cat natural join tag where tagID in (select tagID from tag where userID = %s and catName = '%s')", userID, catName);

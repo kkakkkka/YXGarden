@@ -101,7 +101,7 @@ try {
 	/* 2.统计出类别的数量和每个类别的名称、文章数 */
 	//用户标签数量
 	String sql_4;
-	if (username.equals("admin"))
+	if (username.equals("admin") || username.equals("tourist"))
 		sql_4 = "select count(distinct tagName) from tag;";
 	else
 		sql_4 = "select count(distinct tagName) from tag where userID = " + userID + ";";
@@ -118,7 +118,7 @@ try {
 	}
 	//文章标签内容
 	String sql_6;
-	if (username.equals("admin"))
+	if (username.equals("admin") || username.equals("tourist"))
 		sql_6 = "select distinct tagName from tag;";
 	else
 		sql_6 = "select distinct tagName from tag where userID = " + userID + ";";
@@ -129,7 +129,7 @@ try {
 	// 每个标签的次数
 	String sql_2;
 	for (int i = 0; i < taglist.size(); i++) {
-		if (username.equals("admin"))
+		if (username.equals("admin") || username.equals("tourist"))
 	sql_2 = "select count(*) from tag where tagName = '" + taglist.get(i) + "';";
 		else
 	sql_2 = "select count(*) from tag where userID = " + userID + " and tagName = '" + taglist.get(i) + "';";
