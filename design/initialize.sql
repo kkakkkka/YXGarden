@@ -49,7 +49,7 @@ create table Blog (
 create table Pic (
 	picID int not null AUTO_INCREMENT,
 	userID int not null,
-    name varchar(20) not null,
+    name varchar(20) default null,
 	content varchar(255) not null,
     uploadTime timestamp not null default current_timestamp,
     primary key (picID),
