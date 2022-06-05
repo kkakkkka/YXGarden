@@ -52,23 +52,33 @@
             var password = document.getElementById("password").value;
             var homepage = document.getElementById("homepage").value;
             var registerButton = document.getElementById("submitbutton");
-            if (homepage.startsWith("www.")) // 有www，没有https
+            if (!homepage)
+            	homepage = "about:blank";
+            else if (homepage.startsWith("www.")) // 有www，没有https
             	homepage = "https://"+homepage;
-            else if (!homepage.startsWith("https://") && !homepage.startsWith("http://")) // 既没有www，又没有https或http
+            else if (homepage.search("://") == -1) // 既没有www，又没有https或http或其他绝对路径
             	homepage = "https://www."+homepage;
             
-            if (rePassword != password && rePassword != "" && password != "") {
+            // 防止SQL注入
+            motto = motto.replaceAll(".*([';]+|(--)+).*", " ");
+            homepage = homepage.replaceAll(".*([';]+|(--)+).*", " ");
+            
+            var zg = new RegExp(/^((?![0-9]+$)|(?![a-zA-Z]+$))[0-9A-Za-z]*$/);
+            if (!zg.test(password)) { // 检查密码组成
+            	alert("密码只能由数字和字母组成，请重新输入！");
+                document.getElementById("re-password").value = "";
+                document.getElementById("password").value = "";
+            } else if (rePassword != password && rePassword != "" && password != "") { // 检查两次密码是否相同
                 alert("两次密码输入不相同，请重新输入！");
                 document.getElementById("re-password").value = "";
                 document.getElementById("password").value = "";
-            }
-            if (password.length < 3) {
+            } else if (password.length < 3) { // 检查密码长度
                 alert("密码少于3位，请重新输入！");
-            } else if (password == "") {
+            } else if (password == "") {  // 检查用户是否输入新密码
                 alert("新密码不能为空！");
-            } else if (rePassword == "") {
+            } else if (rePassword == "") { // 检查用户是否重复输入新密码
                 alert("请重复输入新密码！");
-            } else {
+            } else { // 没问题了，执行相关操作
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function () {
 				  if (xmlhttp.readyState == 4) {

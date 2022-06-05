@@ -69,6 +69,10 @@ div.muteornot input {
             		break;
                 }
             }
+            
+            // 防止SQL注入
+            username = username.replaceAll(".*([';]+|(--)+).*", " ");
+            
             if (username.length == 0) {
                 alert("用户名不能为空，请重新输入！");
             } else if (!prefix) {
