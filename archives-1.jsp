@@ -386,7 +386,7 @@
                         </div>
                     </div>
                     <footer class="page-footer bg-color">
-                        <a href="new.html"><img src="./medias/add.png" style="width: 37px;height: 37px; position: fixed; bottom: 60px; right: 11px;"></a>
+                        <a href="new.jsp"><img src="./medias/add.png" style="width: 37px;height: 37px; position: fixed; bottom: 60px; right: 11px;"></a>
 
                         <div id="toTopButton" style="position: fixed;right: 10px;bottom:10px;cursor: pointer;display: none;" onclick="returnToTop()">
                             <img src="./medias/arrow.png" style="width: 40px;height: 40px; ">
