@@ -1,3 +1,4 @@
+cnt = 0;
 function addEvent(obj, type, fn) {
     if (obj.attachEvent) { //ie
         obj.attachEvent('on' + type, function() {
