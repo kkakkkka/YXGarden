@@ -238,7 +238,6 @@
                                                                         <%out.print(userNameList.get(0)); %>
                                                                     </h1>
                                                                     <p style="position: relative;top: -35px;">
-                                                                        <%out.print(mottoList.get(0)); %>
                                                                         <%out.print(mottoList.get(0).substring(0, Math.min(10, mottoList.get(0).length()))+(mottoList.get(0).length()>10?"...":"")); %>
                                                                     </p>
                                                                 </div>
