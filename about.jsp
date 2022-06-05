@@ -352,9 +352,8 @@
                                     </div>
                                     <div class="row">
 
-                                        <%for(int i=0;i<=piclist.size()-1&i<=2;i++){ %>
+                                        <%for(int i=0;i<=piclist.size()-1;i++){ %>
                                             <div class="photo col s12 m6 l4 myaos">
-
                                                 <div class="img-item" data-src="<%out.print(piclist.get(i));%>">
                                                     <img src="<%out.print(piclist.get(i));%>" class="responsive-img">
                                                 </div>
