@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="org.apache.commons.io.*"%>
+<%@ page import="org.apache.commons.fileupload.*"%>
+<%@ page import="org.apache.commons.fileupload.disk.*"%>
+<%@ page import="org.apache.commons.fileupload.servlet.*"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%
 Connection conn = null;
@@ -61,9 +65,37 @@ catch (Exception e){
 
 <%
 try {
-	String newpasswd = new String(request.getParameter("newpasswd"));
-	String newmotto = new String(request.getParameter("motto"));
-	String newhp= new String(request.getParameter("homepage"));
+	String newpasswd = null;
+	String newmotto = null;
+	String newhp= null;
+	String newava = null;
+	
+	FileItemFactory factory = new DiskFileItemFactory();
+	ServletFileUpload upload = new ServletFileUpload(factory);
+	List items = upload.parseRequest(request);
+	for (int i = 0; i < items.size(); i++) {
+		FileItem fi = (FileItem) items.get(i);
+		if (fi.isFormField()){
+			if(fi.getFieldName().equals("password")) newpasswd = fi.getString("utf-8");
+			if(fi.getFieldName().equals("motto")) newmotto = fi.getString("utf-8");
+			if(fi.getFieldName().equals("homepage")) newhp = fi.getString("utf-8");
+		}else{
+			DiskFileItem dfi = (DiskFileItem) fi;
+			String fileName = FilenameUtils.getName(dfi.getName());
+			if (!fileName.trim().equals("")) {
+				String path = application.getRealPath("");
+				String sep = System.getProperty("file.separator");
+				String dirToSave = path + "medias" + sep + "userava" + sep;
+				if (!(new File(dirToSave).isDirectory())){//如果文件夹不存在
+		        	new File(dirToSave).mkdir();
+		        }
+				String uniFileName = System.currentTimeMillis()+fileName;
+				dfi.write(new File(dirToSave+uniFileName));
+				newava = "medias/userava/" + uniFileName;
+			}
+		}
+	}
+	
 	Class.forName("com.mysql.jdbc.Driver");
 	String connectionUrl = "jdbc:mysql://172.18.187.253:3306/boke18329015?useUnicode=true&characterEncoding=UTF-8";
 	conn = DriverManager.getConnection(connectionUrl, "user", "123");
@@ -76,16 +108,16 @@ try {
 	SQL = String.format("update user set homePage = '%s' where userID = %s;", newhp, userID);
 	stmt = conn.createStatement();
 	stmt.executeUpdate(SQL);	
-	out.println("更新成功！");
-	out.println("新的密码："+newpasswd);
-	out.println("新的个性签名："+newmotto);
-	out.println("新的个人主页URL："+newhp);
-	response.setStatus(200);
+	if(newava!=null){
+		SQL = String.format("update user set userAvatar = '%s' where userID = %s;", newava, userID);
+		stmt.executeUpdate(SQL);
+	}
+	String succMsg = "更新成功！\\n新的密码："+newpasswd+"\\n新的个性签名："+newmotto+"\\n新的个人主页URL："+newhp;
+	out.write(String.format("<script>alert('%s');window.location.href='home.jsp';</script>",succMsg));
 	stmt.close();
 	conn.close();
 } catch (Exception e) {
-	out.println("更新失败！");
-	response.setStatus(404);
-	out.println(e.getMessage());
+	String failMsg = "更新失败！\\n" + e.getMessage();
+	out.write(String.format("<script>alert('%s');window.location.href='changeinfo.jsp';</script>",failMsg));
 }
 %>
