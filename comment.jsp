@@ -202,9 +202,8 @@
                 </div>
 
                 <main class="content" style="min-height: 584px;">
-                    <script src="./js/comments.js"></script>
                     <div id="contact" class="container chip-container">
-                        <div class="card" style="min-width:200px">
+                        <div class="card" style="min-width:850px">
                             <div class="card-content">
                                 <div class="tag-title center-align">
                                     <i class="fas fa-comments"></i>&nbsp;&nbsp;留言板
