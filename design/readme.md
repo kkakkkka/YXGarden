@@ -72,3 +72,13 @@
 | name       | varchar  | 20   |             | 相片名称   |
 | content    | varchar  | 255  |             | 相片URL    |
 | uploadTime | datetime |      |             | 上传时间   |
+
+### 点赞表likes
+
+| 名        | 类型    | 长度 | 键          | 注释       |
+| --------- | ------- | ---- | ----------- | ---------- |
+| likeID    | int     | 20   | primary key | 点赞ID     |
+| userID    | int     | 20   | foreign key | 所属用户ID |
+| blogID    | int     | 20   | foreign key | 博客ID     |
+| likeOrNot | boolean |      |             | 点赞状态   |
+

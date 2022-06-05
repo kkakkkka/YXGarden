@@ -66,3 +66,14 @@ create table WebComment (
     foreign key(userID) references User(userID)
 ) character set = utf8;
 
+create table likes (
+	likeID int not null AUTO_INCREMENT,
+	userID int not null,
+	blogID int not null,
+	likeOrNot BOOLEAN DEFAULT FALSE,
+    primary key (likeID),
+	foreign key(userID) references User(userID),
+	foreign key(blogID) references Blog(blogID)
+) character set = utf8;
+
+
