@@ -6,7 +6,9 @@
     session.putValue("page", nowPage-1);
 
     response.sendRedirect("archives-1.jsp");
-    return;
+    if(true){
+    	return;
+    }
 %>
 <%-- 
 <script>
