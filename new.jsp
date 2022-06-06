@@ -192,7 +192,14 @@
 		var cat = document.getElementById("cat").value.replace(' ', '');
 		var tag = document.getElementById("tag").value.replace(' ', '');
 		var title = document.getElementById("title").value;
-		document.getElementById("mytextarea").value = document.getElementById("richedit").innerHTML;
+		var blogcontent = document.getElementById("richedit").innerHTML;
+		// 过滤script标签
+	    blogcontent = blogcontent.replace(/&lt;\s*\/?script\s*&gt;/g, '');
+	    // 过滤属性值javascript:开头
+	    blogcontent = blogcontent.replace(/javascript:[^'"]*/g, '');
+	    // 过滤onerror属性
+	    blogcontent = blogcontent.replace(/onerror\s*=\s*['"]?[^'"]*['"]/g, '');
+		document.getElementById("mytextarea").value = blogcontent;
 		if(cat.length > 20 || tag.length > 20){
 			alert("分类或标签的长度不能大于20！");
 			return false;
