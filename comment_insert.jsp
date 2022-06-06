@@ -44,7 +44,9 @@
     }
 
     response.sendRedirect("comment.jsp");
-    return;
+    if(true){
+    	return;
+    }
 %>
 
 </body>
