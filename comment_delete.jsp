@@ -45,11 +45,14 @@
         out.write("<script>alert('连接数据库出错！');</script>");
         return;
     }
+
+    response.sendRedirect("comment.jsp");
+    return;
 %>
 
 </body>
-<script>
+<%-- <script>
     window.history.go(-1);
-</script>
+</script> --%>
 
 </html>

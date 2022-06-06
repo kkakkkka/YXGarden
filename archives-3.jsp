@@ -4,8 +4,11 @@
 <% request.setCharacterEncoding("utf-8");
     int nowPage = (int)session.getAttribute("page");
     session.putValue("page", nowPage+1);
+
+    response.sendRedirect("archives-1.jsp");
+    return;
 %>
 
-<script>
+<%-- <script>
     window.history.go(-1);
-</script>
+</script> --%>
