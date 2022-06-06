@@ -22,20 +22,28 @@
     		userID = rs_1.getString("userID");
     	}
         rs_1.close();
-        out.write(userID + "<br>");
 
         // content
         String comment = request.getParameter("comment");
-        out.write(comment + "<br>");
+        comment = comment.replace("<", "&lt");
+        comment = comment.replace(">", "&gt");
+        if (comment.toLowerCase().indexOf("select") != -1 ||
+            comment.toLowerCase().indexOf("delete") != -1 ||
+            comment.toLowerCase().indexOf("drop") != -1 ||
+            comment.toLowerCase().indexOf("update") != -1) {
+                out.write("<script>alert('检测到sql注入，发表评论失败！');</script>");
+                response.sendRedirect("comment.jsp");
+                if (true) {
+                    return;
+                }
+            }
         
         // userPlace
         String ip = "中山大学"; // https://www.cnblogs.com/face-ghost-coder/p/8867855.html, later to translate ip to place
-        out.write(ip + "<br>");
         
         // update
         String sql_3 = "insert into webcomment(userID, userPlace, content) values(" + userID + ", '" 
                         + ip + "', '" + comment + "');";
-        out.write(sql_3 + "<br>");
         int count = stmt.executeUpdate(sql_3);
         stmt.close();
     } catch (Exception e) {
@@ -44,7 +52,7 @@
     }
 
     response.sendRedirect("comment.jsp");
-    if(true){
+    if (true) {
     	return;
     }
 %>
