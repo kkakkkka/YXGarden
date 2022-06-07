@@ -436,9 +436,9 @@ conn.close();
 	      									}
                                     	</script>
 		<button type='button'
-			onclick="likeit(<%out.print(userID); %>, <%out.print(blogID); %>)">
+			onclick="likeit(<%out.print(userID); %>, <%out.print(blogID); %>)" style="border:none;background:none">
 			<img src="./medias/thumb.png"
-				style="width: 37px; height: 37px; position: fixed; bottom: 108px; right: 11px;">
+				style="width: 37px; height: 37px; position: fixed; bottom: 108px; right: 11px;cursor:pointer">
 		</button>
 		<a href="new.jsp"><img src="./medias/add.png"
 			style="width: 37px; height: 37px; position: fixed; bottom: 60px; right: 11px;"></a>
